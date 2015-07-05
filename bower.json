@@ -1,0 +1,37 @@
+{
+  "name": "mdast-slug",
+  "main": "mdast-slug.js",
+  "description": "Add slugs to headings",
+  "license": "MIT",
+  "keywords": [
+    "text",
+    "markdown",
+    "slug",
+    "id",
+    "github",
+    "npm",
+    "mdast"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wooorm/mdast-slug.git"
+  },
+  "authors": [
+    "Titus Wormer <tituswormer@gmail.com>"
+  ],
+  "ignore": [
+    ".*",
+    "*.log",
+    "*.md",
+    "build/",
+    "components/",
+    "coverage/",
+    "node_modules/",
+    "build.js",
+    "example.js",
+    "index.js",
+    "test.js",
+    "component.json",
+    "package.json"
+  ]
+}
