@@ -22,12 +22,21 @@ module, [uncompressed](mdast-slug.js) and
 
 ## Usage
 
+Dependencies:
+
 ```javascript
 var slug = require('mdast-slug');
 var mdast = require('mdast');
 var html = require('mdast-html');
+```
+
+Process:
+
+```javascript
 var doc = mdast().use(slug).use(html).process('# Foo bar');
 ```
+
+Yields:
 
 ```html
 <h1 id="foo-bar">Foo bar</h1>
