@@ -27,9 +27,6 @@
     "index.js",
     "LICENSE"
   ],
-  "peerDependencies": {
-    "mdast": ">=0.24.0"
-  },
   "devDependencies": {
     "browserify": "^10.0.0",
     "eslint": "^0.23.0",
