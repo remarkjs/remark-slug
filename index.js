@@ -1,3 +1,11 @@
+/**
+ * @author Titus Wormer
+ * @copyright 2015 Titus Wormer
+ * @license MIT
+ * @module mdast:slug
+ * @fileoverview Add anchors to mdast heading nodes.
+ */
+
 'use strict';
 
 /*

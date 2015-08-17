@@ -1,7 +1,7 @@
 {
   "name": "mdast-slug",
   "main": "mdast-slug.js",
-  "description": "Add slugs to headings",
+  "description": "Add anchors to mdast heading nodes",
   "license": "MIT",
   "keywords": [
     "text",

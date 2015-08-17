@@ -1,6 +1,6 @@
 # mdast-slug [![Build Status](https://img.shields.io/travis/wooorm/mdast-slug.svg)](https://travis-ci.org/wooorm/mdast-slug) [![Coverage Status](https://img.shields.io/coveralls/wooorm/mdast-slug.svg)](https://coveralls.io/r/wooorm/mdast-slug?branch=master)
 
-Add slugs to markdown headings [mdast](https://github.com/wooorm/mdast).
+Add anchors to [**mdast**](https://github.com/wooorm/mdast) heading nodes.
 
 >   Works great with [**mdast-html**](https://github.com/wooorm/mdast-html),
 >   used by [**mdast-toc**](https://github.com/wooorm/mdast-toc) and
