@@ -5,7 +5,7 @@
  */
 
 var toString = require('mdast-util-to-string');
-var visit = require('mdast-util-visit');
+var visit = require('unist-util-visit');
 var repeat = require('repeat-string');
 
 var slugg = null;
@@ -57,7 +57,7 @@ var DEFAULT_LIBRARY = GITHUB;
 /**
  * Find a library.
  *
- * @param {string} pathlike
+ * @param {string} pathlike - File-path-like to load.
  * @return {Object}
  */
 function loadLibrary(pathlike) {
@@ -96,14 +96,15 @@ function loadLibrary(pathlike) {
  *
  * @see https://github.com/npm/marky-markdown/blob/9761c95/lib/headings.js#L17
  *
- * @param {function(string): string} library
+ * @param {function(string): string} library - Value to
+ *   slugify.
  * @return {function(string): string}
  */
 function npmFactory(library) {
     /**
      * Generate slugs just like npm would.
      *
-     * @param {string} value
+     * @param {string} value - Value to slugify.
      * @return {string}
      */
     function npm(value) {
@@ -116,7 +117,8 @@ function npmFactory(library) {
 /**
  * Wraps `slugg` to generate slugs just like GitHub would.
  *
- * @param {function(string): string} library
+ * @param {function(string): string} library - Library to
+ *   use.
  * @return {function(string): string}
  */
 function githubFactory(library) {
@@ -125,7 +127,7 @@ function githubFactory(library) {
      * argument to `String#replace()`, and sometimes as
      * a literal string.
      *
-     * @param {string} $0
+     * @param {string} $0 - Value to transform.
      * @return {string}
      */
     function separator($0) {
@@ -151,7 +153,7 @@ function githubFactory(library) {
     /**
      * Generate slugs just like GitHub would.
      *
-     * @param {string} value
+     * @param {string} value - Value to slugify.
      * @return {string}
      */
     function github(value) {

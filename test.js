@@ -10,6 +10,14 @@ var slug = require('./');
 var mdast = require('mdast');
 var assert = require('assert');
 
+/*
+ * Methods.
+ */
+
+var equal = assert.strictEqual;
+var deepEqual = assert.deepEqual;
+var throws = assert.throws;
+
 /**
  * Parse `doc` with mdast, and apply `slug` to
  * the resulting `ast` with `options`.
@@ -32,7 +40,7 @@ function process(doc, options) {
 
 describe('mdast-slug', function () {
     it('should accept `library` as a function', function () {
-        assert.deepEqual(process('# I ♥ unicode', {
+        deepEqual(process('# I ♥ unicode', {
             'library': require('to-slug-case')
         }), {
             'type': 'root',
@@ -55,7 +63,7 @@ describe('mdast-slug', function () {
     });
 
     it('should accept `library` as a package name', function () {
-        assert.deepEqual(process('# I ♥ unicode', {
+        deepEqual(process('# I ♥ unicode', {
             'library': 'to-slug-case'
         }), {
             'type': 'root',
@@ -78,7 +86,7 @@ describe('mdast-slug', function () {
     });
 
     it('should accept `library` as a file', function () {
-        assert.deepEqual(process('# I ♥ unicode', {
+        deepEqual(process('# I ♥ unicode', {
             'library': 'node_modules/to-slug-case/index'
         }), {
             'type': 'root',
@@ -110,9 +118,9 @@ describe('mdast-slug', function () {
             ''
         ].join('\n'));
 
-        assert(ast.children[0].attributes.id === 'normal');
-        assert(ast.children[1].attributes.id === 'table-of-contents');
-        assert(ast.children[2].attributes.id === 'baz');
+        equal(ast.children[0].attributes.id, 'normal');
+        equal(ast.children[1].attributes.id, 'table-of-contents');
+        equal(ast.children[2].attributes.id, 'baz');
     });
 
     it('should not overwrite `attributes` on headings', function () {
@@ -127,11 +135,11 @@ describe('mdast-slug', function () {
 
         processor.run(ast);
 
-        assert(ast.children[0].attributes.class === 'bar');
+        equal(ast.children[0].attributes.class, 'bar');
     });
 
     it('should throw when a plugin cannot be found', function () {
-        assert.throws(function () {
+        throws(function () {
             process('', {
                 'library': 'foo'
             });
@@ -140,7 +148,7 @@ describe('mdast-slug', function () {
 
     describe('github', function () {
         it('should work', function () {
-            assert.deepEqual(process([
+            deepEqual(process([
                 '# I ♥ unicode',
                 '',
                 '# Foo-bar',
@@ -206,7 +214,7 @@ describe('mdast-slug', function () {
 
     describe('npm', function () {
         it('should work', function () {
-            assert.deepEqual(process([
+            deepEqual(process([
                 '# I ♥ unicode',
                 '',
                 '# Foo-bar',

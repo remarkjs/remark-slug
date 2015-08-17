@@ -7,7 +7,7 @@
  */
 
 var toString = require('mdast-util-to-string');
-var visit = require('mdast-util-visit');
+var visit = require('unist-util-visit');
 var repeat = require('repeat-string');
 
 var slugg = null;
@@ -59,7 +59,7 @@ var DEFAULT_LIBRARY = GITHUB;
 /**
  * Find a library.
  *
- * @param {string} pathlike
+ * @param {string} pathlike - File-path-like to load.
  * @return {Object}
  */
 function loadLibrary(pathlike) {
@@ -98,14 +98,15 @@ function loadLibrary(pathlike) {
  *
  * @see https://github.com/npm/marky-markdown/blob/9761c95/lib/headings.js#L17
  *
- * @param {function(string): string} library
+ * @param {function(string): string} library - Value to
+ *   slugify.
  * @return {function(string): string}
  */
 function npmFactory(library) {
     /**
      * Generate slugs just like npm would.
      *
-     * @param {string} value
+     * @param {string} value - Value to slugify.
      * @return {string}
      */
     function npm(value) {
@@ -118,7 +119,8 @@ function npmFactory(library) {
 /**
  * Wraps `slugg` to generate slugs just like GitHub would.
  *
- * @param {function(string): string} library
+ * @param {function(string): string} library - Library to
+ *   use.
  * @return {function(string): string}
  */
 function githubFactory(library) {
@@ -127,7 +129,7 @@ function githubFactory(library) {
      * argument to `String#replace()`, and sometimes as
      * a literal string.
      *
-     * @param {string} $0
+     * @param {string} $0 - Value to transform.
      * @return {string}
      */
     function separator($0) {
@@ -153,7 +155,7 @@ function githubFactory(library) {
     /**
      * Generate slugs just like GitHub would.
      *
-     * @param {string} value
+     * @param {string} value - Value to slugify.
      * @return {string}
      */
     function github(value) {
@@ -214,11 +216,11 @@ function attacher(mdast, options) {
 module.exports = attacher;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"fs":undefined,"mdast-util-to-string":2,"mdast-util-visit":3,"path":undefined,"repeat-string":4,"slugg":5}],2:[function(require,module,exports){
+},{"fs":undefined,"mdast-util-to-string":2,"path":undefined,"repeat-string":3,"slugg":4,"unist-util-visit":5}],2:[function(require,module,exports){
 /**
  * @author Titus Wormer
  * @copyright 2015 Titus Wormer. All rights reserved.
- * @module mdast-util-to-string
+ * @module mdast:util:to-string
  * @fileoverview Utility to get the text value of a node.
  */
 
@@ -258,121 +260,6 @@ function toString(node) {
 module.exports = toString;
 
 },{}],3:[function(require,module,exports){
-/**
- * @author Titus Wormer
- * @copyright 2015 Titus Wormer. All rights reserved.
- * @module mdast-util-visit
- * @fileoverview Utility to recursively walk over mdast nodes.
- */
-
-'use strict';
-
-/**
- * Walk forwards.
- *
- * @param {Array.<*>} values - Things to iterate over,
- *   forwards.
- * @param {function(*, number): boolean} callback - Function
- *   to invoke.
- * @return {boolean} - False if iteration stopped.
- */
-function forwards(values, callback) {
-    var index = -1;
-    var length = values.length;
-
-    while (++index < length) {
-        if (callback(values[index], index) === false) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-/**
- * Walk backwards.
- *
- * @param {Array.<*>} values - Things to iterate over,
- *   backwards.
- * @param {function(*, number): boolean} callback - Function
- *   to invoke.
- * @return {boolean} - False if iteration stopped.
- */
-function backwards(values, callback) {
-    var index = values.length;
-    var length = -1;
-
-    while (--index > length) {
-        if (callback(values[index], index) === false) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-/**
- * Visit.
- *
- * @param {Node} tree - Root node
- * @param {string} [type] - Node type.
- * @param {function(node): boolean?} callback - Invoked
- *   with each found node.  Can return `false` to stop.
- * @param {boolean} [reverse] - By default, `visit` will
- *   walk forwards, when `reverse` is `true`, `visit`
- *   walks backwards.
- */
-function visit(tree, type, callback, reverse) {
-    var iterate;
-    var one;
-    var all;
-
-    if (typeof type === 'function') {
-        reverse = callback;
-        callback = type;
-        type = null;
-    }
-
-    iterate = reverse ? backwards : forwards;
-
-    /**
-     * Visit `children` in `parent`.
-     */
-    all = function (children, parent) {
-        return iterate(children, function (child, index) {
-            return child && one(child, index, parent);
-        });
-    };
-
-    /**
-     * Visit a single node.
-     */
-    one = function (node, index, parent) {
-        var result;
-
-        index = index || (parent ? 0 : null);
-
-        if (!type || node.type === type) {
-            result = callback(node, index, parent || null);
-        }
-
-        if (node.children && result !== false) {
-            return all(node.children, node);
-        }
-
-        return result;
-    };
-
-    one(tree);
-}
-
-/*
- * Expose.
- */
-
-module.exports = visit;
-
-},{}],4:[function(require,module,exports){
 /*!
  * repeat-string <https://github.com/jonschlinkert/repeat-string>
  *
@@ -440,7 +327,7 @@ function repeat(str, num) {
 var res = '';
 var cache;
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 (function (root) {
 
 var defaultSeparator = '-'
@@ -553,6 +440,121 @@ if (typeof define !== 'undefined' && define.amd) {
 }
 
 }(this))
+
+},{}],5:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2015 Titus Wormer. All rights reserved.
+ * @module unist:util:visit
+ * @fileoverview Utility to recursively walk over unist nodes.
+ */
+
+'use strict';
+
+/**
+ * Walk forwards.
+ *
+ * @param {Array.<*>} values - Things to iterate over,
+ *   forwards.
+ * @param {function(*, number): boolean} callback - Function
+ *   to invoke.
+ * @return {boolean} - False if iteration stopped.
+ */
+function forwards(values, callback) {
+    var index = -1;
+    var length = values.length;
+
+    while (++index < length) {
+        if (callback(values[index], index) === false) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Walk backwards.
+ *
+ * @param {Array.<*>} values - Things to iterate over,
+ *   backwards.
+ * @param {function(*, number): boolean} callback - Function
+ *   to invoke.
+ * @return {boolean} - False if iteration stopped.
+ */
+function backwards(values, callback) {
+    var index = values.length;
+    var length = -1;
+
+    while (--index > length) {
+        if (callback(values[index], index) === false) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Visit.
+ *
+ * @param {Node} tree - Root node
+ * @param {string} [type] - Node type.
+ * @param {function(node): boolean?} callback - Invoked
+ *   with each found node.  Can return `false` to stop.
+ * @param {boolean} [reverse] - By default, `visit` will
+ *   walk forwards, when `reverse` is `true`, `visit`
+ *   walks backwards.
+ */
+function visit(tree, type, callback, reverse) {
+    var iterate;
+    var one;
+    var all;
+
+    if (typeof type === 'function') {
+        reverse = callback;
+        callback = type;
+        type = null;
+    }
+
+    iterate = reverse ? backwards : forwards;
+
+    /**
+     * Visit `children` in `parent`.
+     */
+    all = function (children, parent) {
+        return iterate(children, function (child, index) {
+            return child && one(child, index, parent);
+        });
+    };
+
+    /**
+     * Visit a single node.
+     */
+    one = function (node, index, parent) {
+        var result;
+
+        index = index || (parent ? 0 : null);
+
+        if (!type || node.type === type) {
+            result = callback(node, index, parent || null);
+        }
+
+        if (node.children && result !== false) {
+            return all(node.children, node);
+        }
+
+        return result;
+    };
+
+    one(tree);
+}
+
+/*
+ * Expose.
+ */
+
+module.exports = visit;
 
 },{}]},{},[1])(1)
 });
