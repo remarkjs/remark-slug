@@ -1,4 +1,4 @@
-# mdast-slug [![Build Status](https://img.shields.io/travis/wooorm/mdast-slug.svg)](https://travis-ci.org/wooorm/mdast-slug) [![Coverage Status](https://img.shields.io/coveralls/wooorm/mdast-slug.svg)](https://coveralls.io/r/wooorm/mdast-slug?branch=master)
+# mdast-slug [![Build Status](https://img.shields.io/travis/wooorm/mdast-slug.svg)](https://travis-ci.org/wooorm/mdast-slug) [![Coverage Status](https://img.shields.io/codecov/c/github/wooorm/mdast-slug.svg)](https://codecov.io/github/wooorm/mdast-slug)
 
 Add anchors to [**mdast**](https://github.com/wooorm/mdast) heading nodes.
 
