@@ -55,6 +55,11 @@ mdast ... -u 'mdast-slug=library:"npm"'
 
 Adds slugs to markdown headings.
 
+Sets `data.id` and `data.htmlAttributes.id` on heading nodes. The first can be
+used by any plugin as a unique identifier, the second tells **mdast-html** to
+use its value as an `id` attribute. **mdast-slug** does not overwrite these
+values when they already exist.
+
 Parameters:
 
 *   `slug` — This plugin;

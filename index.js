@@ -197,6 +197,18 @@ function attacher(mdast, options) {
     }
 
     /**
+     * Patch `value` on `context` at `key`, if
+     * `context[key]` does not already exist.
+     */
+    function patch(context, key, value) {
+        if (!context[key]) {
+            context[key] = value;
+        }
+
+        return context[key];
+    }
+
+    /**
      * Adds an example section based on a valid example
      * JavaScript document to a `Usage` section.
      *
@@ -204,11 +216,12 @@ function attacher(mdast, options) {
      */
     function transformer(ast) {
         visit(ast, 'heading', function (node) {
-            if (!node.attributes) {
-                node.attributes = {};
-            }
+            var id = library(toString(node));
+            var data = patch(node, 'data', {});
 
-            node.attributes.id = library(toString(node));
+            patch(data, 'id', id);
+            patch(data, 'htmlAttributes', {});
+            patch(data.htmlAttributes, 'id', id);
         });
     }
 

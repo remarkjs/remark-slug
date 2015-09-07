@@ -54,8 +54,11 @@ describe('mdast-slug', function () {
                             'value': 'I ♥ unicode'
                         }
                     ],
-                    'attributes': {
-                        'id': 'i-unicode'
+                    'data': {
+                        'id': 'i-unicode',
+                        'htmlAttributes': {
+                            'id': 'i-unicode'
+                        }
                     }
                 }
             ]
@@ -77,8 +80,11 @@ describe('mdast-slug', function () {
                             'value': 'I ♥ unicode'
                         }
                     ],
-                    'attributes': {
-                        'id': 'i-unicode'
+                    'data': {
+                        'id': 'i-unicode',
+                        'htmlAttributes': {
+                            'id': 'i-unicode'
+                        }
                     }
                 }
             ]
@@ -100,15 +106,18 @@ describe('mdast-slug', function () {
                             'value': 'I ♥ unicode'
                         }
                     ],
-                    'attributes': {
-                        'id': 'i-unicode'
+                    'data': {
+                        'id': 'i-unicode',
+                        'htmlAttributes': {
+                            'id': 'i-unicode'
+                        }
                     }
                 }
             ]
         });
     });
 
-    it('should add `attributes.id` to headings', function () {
+    it('should add `data.id` to headings', function () {
         var ast = process([
             '# Normal',
             '',
@@ -118,24 +127,56 @@ describe('mdast-slug', function () {
             ''
         ].join('\n'));
 
-        equal(ast.children[0].attributes.id, 'normal');
-        equal(ast.children[1].attributes.id, 'table-of-contents');
-        equal(ast.children[2].attributes.id, 'baz');
+        equal(ast.children[0].data.id, 'normal');
+        equal(ast.children[1].data.id, 'table-of-contents');
+        equal(ast.children[2].data.id, 'baz');
     });
 
-    it('should not overwrite `attributes` on headings', function () {
+    it('should add `data.htmlAttributes.id` to headings', function () {
+        var ast = process([
+            '# Normal',
+            '',
+            '## Table of Contents',
+            '',
+            '# Baz',
+            ''
+        ].join('\n'));
+
+        equal(ast.children[0].data.htmlAttributes.id, 'normal');
+        equal(ast.children[1].data.htmlAttributes.id, 'table-of-contents');
+        equal(ast.children[2].data.htmlAttributes.id, 'baz');
+    });
+
+    it('should not overwrite `data` on headings', function () {
         var processor = mdast().use(slug);
         var ast = processor.parse('# Normal', {
             'position': false
         });
 
-        ast.children[0].attributes = {
-            'class': 'bar'
+        ast.children[0].data = {
+            'foo': 'bar'
         };
 
         processor.run(ast);
 
-        equal(ast.children[0].attributes.class, 'bar');
+        equal(ast.children[0].data.foo, 'bar');
+    });
+
+    it('should not overwrite `data.htmlAttributes` on headings', function () {
+        var processor = mdast().use(slug);
+        var ast = processor.parse('# Normal', {
+            'position': false
+        });
+
+        ast.children[0].data = {
+            'htmlAttributes': {
+                'class': 'bar'
+            }
+        };
+
+        processor.run(ast);
+
+        equal(ast.children[0].data.htmlAttributes.class, 'bar');
     });
 
     it('should throw when a plugin cannot be found', function () {
@@ -169,8 +210,11 @@ describe('mdast-slug', function () {
                                 'value': 'I ♥ unicode'
                             }
                         ],
-                        'attributes': {
-                            'id': 'i--unicode'
+                        'data': {
+                            'id': 'i--unicode',
+                            'htmlAttributes': {
+                                'id': 'i--unicode'
+                            }
                         }
                     },
                     {
@@ -182,16 +226,22 @@ describe('mdast-slug', function () {
                                 'value': 'Foo-bar'
                             }
                         ],
-                        'attributes': {
-                            'id': 'foo-bar'
+                        'data': {
+                            'id': 'foo-bar',
+                            'htmlAttributes': {
+                                'id': 'foo-bar'
+                            }
                         }
                     },
                     {
                         'type': 'heading',
                         'depth': 1,
                         'children': [],
-                        'attributes': {
-                            'id': ''
+                        'data': {
+                            'id': '',
+                            'htmlAttributes': {
+                                'id': ''
+                            }
                         }
                     },
                     {
@@ -203,8 +253,11 @@ describe('mdast-slug', function () {
                                 'value': '😄-😄'
                             }
                         ],
-                        'attributes': {
-                            'id': ''
+                        'data': {
+                            'id': '',
+                            'htmlAttributes': {
+                                'id': ''
+                            }
                         }
                     }
                 ]
@@ -237,8 +290,11 @@ describe('mdast-slug', function () {
                                 'value': 'I ♥ unicode'
                             }
                         ],
-                        'attributes': {
-                            'id': 'i-unicode'
+                        'data': {
+                            'id': 'i-unicode',
+                            'htmlAttributes': {
+                                'id': 'i-unicode'
+                            }
                         }
                     },
                     {
@@ -250,16 +306,22 @@ describe('mdast-slug', function () {
                                 'value': 'Foo-bar'
                             }
                         ],
-                        'attributes': {
-                            'id': 'foo-bar'
+                        'data': {
+                            'id': 'foo-bar',
+                            'htmlAttributes': {
+                                'id': 'foo-bar'
+                            }
                         }
                     },
                     {
                         'type': 'heading',
                         'depth': 1,
                         'children': [],
-                        'attributes': {
-                            'id': ''
+                        'data': {
+                            'id': '',
+                            'htmlAttributes': {
+                                'id': ''
+                            }
                         }
                     },
                     {
@@ -271,8 +333,11 @@ describe('mdast-slug', function () {
                                 'value': '😄-😄'
                             }
                         ],
-                        'attributes': {
-                            'id': ''
+                        'data': {
+                            'id': '',
+                            'htmlAttributes': {
+                                'id': ''
+                            }
                         }
                     }
                 ]

@@ -206,11 +206,17 @@ function attacher(mdast, options) {
      */
     function transformer(ast) {
         visit(ast, 'heading', function (node) {
-            if (!node.attributes) {
-                node.attributes = {};
+            var data = node.data;
+
+            if (!data) {
+                data = node.data = {};
             }
 
-            node.attributes.id = library(toString(node));
+            if (!data.htmlAttributes) {
+                data.htmlAttributes = {};
+            }
+
+            data.id = data.htmlAttributes.id = library(toString(node));
         });
     }
 
