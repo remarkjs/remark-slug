@@ -2,6 +2,11 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+2.0.0 / 2015-09-07
+==================
+
+*   Replace `attributes` with `data`, `data.htmlAttributes` ([88c8358](https://github.com/wooorm/mdast-slug/commit/88c8358))
+
 1.0.0 / 2015-08-17
 ==================
 
