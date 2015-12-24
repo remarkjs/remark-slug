@@ -2,8 +2,8 @@
  * @author Titus Wormer
  * @copyright 2015 Titus Wormer
  * @license MIT
- * @module mdast:slug
- * @fileoverview Add anchors to mdast heading nodes.
+ * @module remark:slug
+ * @fileoverview Add anchors to remark heading nodes.
  */
 
 'use strict';
@@ -176,7 +176,7 @@ function githubFactory(library) {
  *
  * @return {function(node)}
  */
-function attacher(mdast, options) {
+function attacher(remark, options) {
     var settings = options || {};
     var library = settings.library || DEFAULT_LIBRARY;
     var isNPM = library === NPM;

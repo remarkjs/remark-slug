@@ -1,11 +1,11 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mdastSlug = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.remarkSlug = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (global){
 /**
  * @author Titus Wormer
  * @copyright 2015 Titus Wormer
  * @license MIT
- * @module mdast:slug
- * @fileoverview Add anchors to mdast heading nodes.
+ * @module remark:slug
+ * @fileoverview Add anchors to remark heading nodes.
  */
 
 'use strict';
@@ -178,7 +178,7 @@ function githubFactory(library) {
  *
  * @return {function(node)}
  */
-function attacher(mdast, options) {
+function attacher(remark, options) {
     var settings = options || {};
     var library = settings.library || DEFAULT_LIBRARY;
     var isNPM = library === NPM;
@@ -199,6 +199,18 @@ function attacher(mdast, options) {
     }
 
     /**
+     * Patch `value` on `context` at `key`, if
+     * `context[key]` does not already exist.
+     */
+    function patch(context, key, value) {
+        if (!context[key]) {
+            context[key] = value;
+        }
+
+        return context[key];
+    }
+
+    /**
      * Adds an example section based on a valid example
      * JavaScript document to a `Usage` section.
      *
@@ -206,17 +218,12 @@ function attacher(mdast, options) {
      */
     function transformer(ast) {
         visit(ast, 'heading', function (node) {
-            var data = node.data;
+            var id = library(toString(node));
+            var data = patch(node, 'data', {});
 
-            if (!data) {
-                data = node.data = {};
-            }
-
-            if (!data.htmlAttributes) {
-                data.htmlAttributes = {};
-            }
-
-            data.id = data.htmlAttributes.id = library(toString(node));
+            patch(data, 'id', id);
+            patch(data, 'htmlAttributes', {});
+            patch(data.htmlAttributes, 'id', id);
         });
     }
 

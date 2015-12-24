@@ -1,10 +1,10 @@
 // Dependencies:
 var slug = require('./index.js');
-var mdast = require('mdast');
-var html = require('mdast-html');
+var remark = require('remark');
+var html = require('remark-html');
 
 // Process:
-var doc = mdast().use(slug).use(html).process('# Foo bar');
+var doc = remark().use(slug).use(html).process('# Foo bar');
 
 // Yields:
 console.log('html', doc);

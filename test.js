@@ -38,7 +38,7 @@ function process(doc, options) {
  * Testes.
  */
 
-describe('mdast-slug', function () {
+describe('remark-slug', function () {
     it('should accept `library` as a function', function () {
         deepEqual(process('# I ♥ unicode', {
             'library': require('to-slug-case')

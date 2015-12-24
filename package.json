@@ -1,7 +1,7 @@
 {
-  "name": "mdast-slug",
+  "name": "remark-slug",
   "version": "2.0.0",
-  "description": "Add anchors to mdast heading nodes",
+  "description": "Add anchors to remark heading nodes",
   "license": "MIT",
   "keywords": [
     "text",
@@ -10,7 +10,7 @@
     "id",
     "github",
     "npm",
-    "mdast"
+    "remark"
   ],
   "dependencies": {
     "mdast-util-to-string": "^1.0.0",
@@ -18,7 +18,7 @@
     "repeat-string": "^1.5.0",
     "slugg": "^0.1.0"
   },
-  "repository": "wooorm/mdast-slug",
+  "repository": "wooorm/remark-slug",
   "author": "Titus Wormer <tituswormer@gmail.com>",
   "files": [
     "index.js"
@@ -30,12 +30,12 @@
     "istanbul": "^0.3.0",
     "jscs": "^2.0.0",
     "jscs-jsdoc": "^1.0.0",
-    "mdast": "^1.0.0",
-    "mdast-comment-config": "^1.0.0",
-    "mdast-github": "^1.0.0",
+    "mdast": "^3.0.0-alpha.5",
+    "mdast-comment-config": "^2.0.0-alpha.1",
+    "mdast-github": "^2.0.0-alpha.1",
     "mdast-html": "^1.0.0",
-    "mdast-lint": "^1.0.0",
-    "mdast-usage": "^1.0.0",
+    "mdast-lint": "^2.0.0-alpha.1",
+    "mdast-usage": "^2.0.0-alpha.1",
     "mdast-validate-links": "^1.0.0",
     "mocha": "^2.0.0",
     "slug": "^0.9.0",
@@ -50,8 +50,8 @@
     "lint-style": "jscs --reporter inline .",
     "lint": "npm run lint-api && npm run lint-style",
     "make": "npm run lint && npm run test-coverage",
-    "bundle": "browserify index.js --no-builtins -s mdastSlug > mdast-slug.js",
-    "postbundle": "esmangle mdast-slug.js > mdast-slug.min.js",
+    "bundle": "browserify index.js --no-builtins -s remarkSlug > remark-slug.js",
+    "postbundle": "esmangle remark-slug.js > remark-slug.min.js",
     "build-md": "mdast . --quiet",
     "build": "npm run bundle && npm run build-md"
   }

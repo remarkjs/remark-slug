@@ -1,39 +1,39 @@
-# mdast-slug [![Build Status](https://img.shields.io/travis/wooorm/mdast-slug.svg)](https://travis-ci.org/wooorm/mdast-slug) [![Coverage Status](https://img.shields.io/codecov/c/github/wooorm/mdast-slug.svg)](https://codecov.io/github/wooorm/mdast-slug)
+# remark-slug [![Build Status](https://img.shields.io/travis/wooorm/remark-slug.svg)](https://travis-ci.org/wooorm/remark-slug) [![Coverage Status](https://img.shields.io/codecov/c/github/wooorm/remark-slug.svg)](https://codecov.io/github/wooorm/remark-slug)
 
-Add anchors to [**mdast**](https://github.com/wooorm/mdast) heading nodes.
+Add anchors to [**remark**](https://github.com/wooorm/remark) heading nodes.
 
->   Works great with [**mdast-html**](https://github.com/wooorm/mdast-html),
->   used by [**mdast-toc**](https://github.com/wooorm/mdast-toc) and
->   [**mdast-man**](https://github.com/wooorm/mdast-man).
+>   Works great with [**remark-html**](https://github.com/wooorm/remark-html),
+>   used by [**remark-toc**](https://github.com/wooorm/remark-toc) and
+>   [**remark-man**](https://github.com/wooorm/remark-man).
 
 ## Installation
 
 [npm](https://docs.npmjs.com/cli/install):
 
 ```bash
-npm install mdast-slug
+npm install remark-slug
 ```
 
-**mdast-slug** is also available for [bower](http://bower.io/#install-packages),
+**remark-slug** is also available for [bower](http://bower.io/#install-packages),
 [component](https://github.com/componentjs/component), and
 [duo](http://duojs.org/#getting-started), and as an AMD, CommonJS, and globals
-module, [uncompressed](mdast-slug.js) and
-[compressed](mdast-slug.min.js).
+module, [uncompressed](remark-slug.js) and
+[compressed](remark-slug.min.js).
 
 ## Usage
 
 Dependencies:
 
 ```javascript
-var slug = require('mdast-slug');
-var mdast = require('mdast');
-var html = require('mdast-html');
+var slug = require('remark-slug');
+var remark = require('remark');
+var html = require('remark-html');
 ```
 
 Process:
 
 ```javascript
-var doc = mdast().use(slug).use(html).process('# Foo bar');
+var doc = remark().use(slug).use(html).process('# Foo bar');
 ```
 
 Yields:
@@ -45,19 +45,19 @@ Yields:
 ## CLI
 
 ```bash
-mdast ... -u mdast-slug
-mdast ... -u 'mdast-slug=library:"npm"'
+remark ... -u remark-slug
+remark ... -u 'remark-slug=library:"npm"'
 ```
 
 ## API
 
-### [mdast](https://github.com/wooorm/mdast#api).[use](https://github.com/wooorm/mdast#mdastuseplugin-options)(slug, options)
+### [remark](https://github.com/wooorm/remark#api).[use](https://github.com/wooorm/remark#remarkuseplugin-options)(slug, options)
 
 Adds slugs to markdown headings.
 
 Sets `data.id` and `data.htmlAttributes.id` on heading nodes. The first can be
-used by any plugin as a unique identifier, the second tells **mdast-html** to
-use its value as an `id` attribute. **mdast-slug** does not overwrite these
+used by any plugin as a unique identifier, the second tells **remark-html** to
+use its value as an `id` attribute. **remark-slug** does not overwrite these
 values when they already exist.
 
 Parameters:
