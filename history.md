@@ -2,6 +2,12 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+3.0.0 / 2015-12-24
+==================
+
+*   Add temporary warning to `readme.md` ([46142d4](https://github.com/wooorm/remark-slug/commit/46142d4))
+*   Rename `mdast-slug` > `remark-slug` ([075b755](https://github.com/wooorm/remark-slug/commit/075b755))
+
 2.0.0 / 2015-09-07
 ==================
 
