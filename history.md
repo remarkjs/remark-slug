@@ -2,6 +2,14 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+3.0.1 / 2015-12-26
+==================
+
+*   Remove distribution files from source ([8114e4b](https://github.com/wooorm/remark-slug/commit/8114e4b))
+*   Remove support for bower ([34a2140](https://github.com/wooorm/remark-slug/commit/34a2140))
+*   Refactor to replace mocha with tape ([20cdd65](https://github.com/wooorm/remark-slug/commit/20cdd65))
+*   Replace internal dependency of mdast > remark ([83c0b70](https://github.com/wooorm/remark-slug/commit/83c0b70))
+
 3.0.0 / 2015-12-24
 ==================
 
