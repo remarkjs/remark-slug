@@ -8,6 +8,8 @@
 
 'use strict';
 
+/* eslint-env commonjs */
+
 /*
  * Dependencies.
  */
@@ -38,7 +40,8 @@ try {
  */
 
 /* istanbul ignore else */
-if (typeof global !== 'undefined' && global.process) {
+if (typeof global !== 'undefined') {
+    /* global global */
     proc = global.process;
 }
 
@@ -66,7 +69,7 @@ var DEFAULT_LIBRARY = GITHUB;
  * Find a library.
  *
  * @param {string} pathlike - File-path-like to load.
- * @return {Object}
+ * @return {*} - Library.
  */
 function loadLibrary(pathlike) {
     var cwd;
@@ -106,14 +109,14 @@ function loadLibrary(pathlike) {
  *
  * @param {function(string): string} library - Value to
  *   slugify.
- * @return {function(string): string}
+ * @return {function(string): string} - Modifier.
  */
 function npmFactory(library) {
     /**
      * Generate slugs just like npm would.
      *
      * @param {string} value - Value to slugify.
-     * @return {string}
+     * @return {string} - Slug.
      */
     function npm(value) {
         return library(value).replace(/[<>]/g, '').toLowerCase();
@@ -127,7 +130,7 @@ function npmFactory(library) {
  *
  * @param {function(string): string} library - Library to
  *   use.
- * @return {function(string): string}
+ * @return {function(string): string} - Modifier.
  */
 function githubFactory(library) {
     /**
@@ -136,7 +139,7 @@ function githubFactory(library) {
      * a literal string.
      *
      * @param {string} $0 - Value to transform.
-     * @return {string}
+     * @return {string} - Replacement.
      */
     function separator($0) {
         var match = $0.match(/\s/g);
@@ -150,7 +153,7 @@ function githubFactory(library) {
 
     /**
      * @see seperator
-     * @return {string}
+     * @return {string} - Dash.
      */
     function dash() {
         return DASH;
@@ -162,7 +165,7 @@ function githubFactory(library) {
      * Generate slugs just like GitHub would.
      *
      * @param {string} value - Value to slugify.
-     * @return {string}
+     * @return {string} - Slug.
      */
     function github(value) {
         return library(value, separator).toLowerCase();
@@ -174,7 +177,9 @@ function githubFactory(library) {
 /**
  * Attacher.
  *
- * @return {function(node)}
+ * @param {Remark} remark - Processor.
+ * @param {Object?} [options] - Configuration.
+ * @return {function(node)} - Transformer.
  */
 function attacher(remark, options) {
     var settings = options || {};
@@ -199,6 +204,10 @@ function attacher(remark, options) {
     /**
      * Patch `value` on `context` at `key`, if
      * `context[key]` does not already exist.
+     *
+     * @param {Object} context - Context to patch.
+     * @param {string} key - Key to patch at.
+     * @param {*} value - Value to patch.
      */
     function patch(context, key, value) {
         if (!context[key]) {
