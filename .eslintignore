@@ -1,7 +1,5 @@
-build/
 components/
 coverage/
-build.js
 example.js
 remark-slug.js
 remark-slug.min.js
