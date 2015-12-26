@@ -14,9 +14,9 @@ Add anchors to [**remark**](https://github.com/wooorm/remark) heading nodes.
 npm install remark-slug
 ```
 
-**remark-slug** is also available for and [duo](http://duojs.org/#getting-started),
-and as an AMD, CommonJS, and globals module, [uncompressed](remark-slug.js) and
-[compressed](remark-slug.min.js).
+**remark-slug** is also available for [duo](http://duojs.org/#getting-started),
+and as an AMD, CommonJS, and globals module, [uncompressed and
+compressed](https://github.com/wooorm/remark-slug/releases).
 
 ## Usage
 
