@@ -1,22 +1,14 @@
 'use strict';
 
-/* eslint-env mocha */
+/* eslint-env node */
 
 /*
  * Dependencies.
  */
 
+var test = require('tape');
 var slug = require('./');
 var remark = require('remark');
-var assert = require('assert');
-
-/*
- * Methods.
- */
-
-var equal = assert.strictEqual;
-var deepEqual = assert.deepEqual;
-var throws = assert.throws;
 
 /**
  * Parse `doc` with remark, and apply `slug` to
@@ -38,11 +30,15 @@ function process(doc, options) {
  * Testes.
  */
 
-describe('remark-slug', function () {
-    it('should accept `library` as a function', function () {
-        deepEqual(process('# I ♥ unicode', {
+test('remark-slug', function (t) {
+    var ast;
+    var processor;
+
+    t.deepEqual(
+        process('# I ♥ unicode', {
             'library': require('to-slug-case')
-        }), {
+        }),
+        {
             'type': 'root',
             'children': [
                 {
@@ -62,13 +58,15 @@ describe('remark-slug', function () {
                     }
                 }
             ]
-        });
-    });
+        },
+        'should accept `library` as a function'
+    );
 
-    it('should accept `library` as a package name', function () {
-        deepEqual(process('# I ♥ unicode', {
+    t.deepEqual(
+        process('# I ♥ unicode', {
             'library': 'to-slug-case'
-        }), {
+        }),
+        {
             'type': 'root',
             'children': [
                 {
@@ -88,13 +86,15 @@ describe('remark-slug', function () {
                     }
                 }
             ]
-        });
-    });
+        },
+        'should accept `library` as a package name'
+    );
 
-    it('should accept `library` as a file', function () {
-        deepEqual(process('# I ♥ unicode', {
+    t.deepEqual(
+        process('# I ♥ unicode', {
             'library': 'node_modules/to-slug-case/index'
-        }), {
+        }),
+        {
             'type': 'root',
             'children': [
                 {
@@ -114,234 +114,245 @@ describe('remark-slug', function () {
                     }
                 }
             ]
-        });
+        },
+        'should accept `library` as a file'
+    );
+
+    ast = process([
+        '# Normal',
+        '',
+        '## Table of Contents',
+        '',
+        '# Baz',
+        ''
+    ].join('\n'));
+
+    t.equal(ast.children[0].data.id, 'normal');
+    t.equal(ast.children[1].data.id, 'table-of-contents');
+    t.equal(ast.children[2].data.id, 'baz');
+
+    ast = process([
+        '# Normal',
+        '',
+        '## Table of Contents',
+        '',
+        '# Baz',
+        ''
+    ].join('\n'));
+
+    t.equal(ast.children[0].data.htmlAttributes.id, 'normal');
+    t.equal(ast.children[1].data.htmlAttributes.id, 'table-of-contents');
+    t.equal(ast.children[2].data.htmlAttributes.id, 'baz');
+
+    processor = remark().use(slug);
+
+    ast = processor.parse('# Normal', {
+        'position': false
     });
 
-    it('should add `data.id` to headings', function () {
-        var ast = process([
-            '# Normal',
-            '',
-            '## Table of Contents',
-            '',
-            '# Baz',
-            ''
-        ].join('\n'));
+    ast.children[0].data = {
+        'foo': 'bar'
+    };
 
-        equal(ast.children[0].data.id, 'normal');
-        equal(ast.children[1].data.id, 'table-of-contents');
-        equal(ast.children[2].data.id, 'baz');
+    processor.run(ast);
+
+    t.equal(
+        ast.children[0].data.foo,
+        'bar',
+        'should not overwrite `data` on headings'
+    );
+
+    processor = remark().use(slug);
+
+    ast = processor.parse('# Normal', {
+        'position': false
     });
 
-    it('should add `data.htmlAttributes.id` to headings', function () {
-        var ast = process([
-            '# Normal',
-            '',
-            '## Table of Contents',
-            '',
-            '# Baz',
-            ''
-        ].join('\n'));
+    ast.children[0].data = {
+        'htmlAttributes': {
+            'class': 'bar'
+        }
+    };
 
-        equal(ast.children[0].data.htmlAttributes.id, 'normal');
-        equal(ast.children[1].data.htmlAttributes.id, 'table-of-contents');
-        equal(ast.children[2].data.htmlAttributes.id, 'baz');
-    });
+    processor.run(ast);
 
-    it('should not overwrite `data` on headings', function () {
-        var processor = remark().use(slug);
-        var ast = processor.parse('# Normal', {
-            'position': false
-        });
+    t.equal(
+        ast.children[0].data.htmlAttributes.class,
+        'bar',
+        'should not overwrite `data.htmlAttributes` on headings'
+    );
 
-        ast.children[0].data = {
-            'foo': 'bar'
-        };
-
-        processor.run(ast);
-
-        equal(ast.children[0].data.foo, 'bar');
-    });
-
-    it('should not overwrite `data.htmlAttributes` on headings', function () {
-        var processor = remark().use(slug);
-        var ast = processor.parse('# Normal', {
-            'position': false
-        });
-
-        ast.children[0].data = {
-            'htmlAttributes': {
-                'class': 'bar'
-            }
-        };
-
-        processor.run(ast);
-
-        equal(ast.children[0].data.htmlAttributes.class, 'bar');
-    });
-
-    it('should throw when a plugin cannot be found', function () {
-        throws(function () {
+    t.throws(
+        function () {
             process('', {
                 'library': 'foo'
             });
-        }, /Cannot find module 'foo'/);
-    });
+        },
+        /Cannot find module 'foo'/,
+        'should throw when a plugin cannot be found'
+    );
 
-    describe('github', function () {
-        it('should work', function () {
-            deepEqual(process([
-                '# I ♥ unicode',
-                '',
-                '# Foo-bar',
-                '',
-                '# ',
-                '',
-                '😄-😄',
-                '==='
-            ].join('\n')), {
-                'type': 'root',
+    t.end();
+});
+
+test('github', function (t) {
+    t.deepEqual(process([
+        '# I ♥ unicode',
+        '',
+        '# Foo-bar',
+        '',
+        '# ',
+        '',
+        '😄-😄',
+        '==='
+    ].join('\n')),
+    {
+        'type': 'root',
+        'children': [
+            {
+                'type': 'heading',
+                'depth': 1,
                 'children': [
                     {
-                        'type': 'heading',
-                        'depth': 1,
-                        'children': [
-                            {
-                                'type': 'text',
-                                'value': 'I ♥ unicode'
-                            }
-                        ],
-                        'data': {
-                            'id': 'i--unicode',
-                            'htmlAttributes': {
-                                'id': 'i--unicode'
-                            }
-                        }
-                    },
-                    {
-                        'type': 'heading',
-                        'depth': 1,
-                        'children': [
-                            {
-                                'type': 'text',
-                                'value': 'Foo-bar'
-                            }
-                        ],
-                        'data': {
-                            'id': 'foo-bar',
-                            'htmlAttributes': {
-                                'id': 'foo-bar'
-                            }
-                        }
-                    },
-                    {
-                        'type': 'heading',
-                        'depth': 1,
-                        'children': [],
-                        'data': {
-                            'id': '',
-                            'htmlAttributes': {
-                                'id': ''
-                            }
-                        }
-                    },
-                    {
-                        'type': 'heading',
-                        'depth': 1,
-                        'children': [
-                            {
-                                'type': 'text',
-                                'value': '😄-😄'
-                            }
-                        ],
-                        'data': {
-                            'id': '',
-                            'htmlAttributes': {
-                                'id': ''
-                            }
-                        }
+                        'type': 'text',
+                        'value': 'I ♥ unicode'
                     }
-                ]
-            });
-        });
-    });
-
-    describe('npm', function () {
-        it('should work', function () {
-            deepEqual(process([
-                '# I ♥ unicode',
-                '',
-                '# Foo-bar',
-                '',
-                '# ',
-                '',
-                '😄-😄',
-                '==='
-            ].join('\n'), {
-                'library': 'npm'
-            }), {
-                'type': 'root',
+                ],
+                'data': {
+                    'id': 'i--unicode',
+                    'htmlAttributes': {
+                        'id': 'i--unicode'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 1,
                 'children': [
                     {
-                        'type': 'heading',
-                        'depth': 1,
-                        'children': [
-                            {
-                                'type': 'text',
-                                'value': 'I ♥ unicode'
-                            }
-                        ],
-                        'data': {
-                            'id': 'i-unicode',
-                            'htmlAttributes': {
-                                'id': 'i-unicode'
-                            }
-                        }
-                    },
+                        'type': 'text',
+                        'value': 'Foo-bar'
+                    }
+                ],
+                'data': {
+                    'id': 'foo-bar',
+                    'htmlAttributes': {
+                        'id': 'foo-bar'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 1,
+                'children': [],
+                'data': {
+                    'id': '',
+                    'htmlAttributes': {
+                        'id': ''
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 1,
+                'children': [
                     {
-                        'type': 'heading',
-                        'depth': 1,
-                        'children': [
-                            {
-                                'type': 'text',
-                                'value': 'Foo-bar'
-                            }
-                        ],
-                        'data': {
-                            'id': 'foo-bar',
-                            'htmlAttributes': {
-                                'id': 'foo-bar'
-                            }
+                        'type': 'text',
+                        'value': '😄-😄'
+                    }
+                ],
+                'data': {
+                    'id': '',
+                    'htmlAttributes': {
+                        'id': ''
+                    }
+                }
+            }
+        ]
+    });
+
+    t.end();
+});
+
+test('npm', function (t) {
+    t.deepEqual(
+        process([
+            '# I ♥ unicode',
+            '',
+            '# Foo-bar',
+            '',
+            '# ',
+            '',
+            '😄-😄',
+            '==='
+        ].join('\n'), {
+            'library': 'npm'
+        }),
+        {
+            'type': 'root',
+            'children': [
+                {
+                    'type': 'heading',
+                    'depth': 1,
+                    'children': [
+                        {
+                            'type': 'text',
+                            'value': 'I ♥ unicode'
                         }
-                    },
-                    {
-                        'type': 'heading',
-                        'depth': 1,
-                        'children': [],
-                        'data': {
-                            'id': '',
-                            'htmlAttributes': {
-                                'id': ''
-                            }
-                        }
-                    },
-                    {
-                        'type': 'heading',
-                        'depth': 1,
-                        'children': [
-                            {
-                                'type': 'text',
-                                'value': '😄-😄'
-                            }
-                        ],
-                        'data': {
-                            'id': '',
-                            'htmlAttributes': {
-                                'id': ''
-                            }
+                    ],
+                    'data': {
+                        'id': 'i-unicode',
+                        'htmlAttributes': {
+                            'id': 'i-unicode'
                         }
                     }
-                ]
-            });
-        });
-    });
+                },
+                {
+                    'type': 'heading',
+                    'depth': 1,
+                    'children': [
+                        {
+                            'type': 'text',
+                            'value': 'Foo-bar'
+                        }
+                    ],
+                    'data': {
+                        'id': 'foo-bar',
+                        'htmlAttributes': {
+                            'id': 'foo-bar'
+                        }
+                    }
+                },
+                {
+                    'type': 'heading',
+                    'depth': 1,
+                    'children': [],
+                    'data': {
+                        'id': '',
+                        'htmlAttributes': {
+                            'id': ''
+                        }
+                    }
+                },
+                {
+                    'type': 'heading',
+                    'depth': 1,
+                    'children': [
+                        {
+                            'type': 'text',
+                            'value': '😄-😄'
+                        }
+                    ],
+                    'data': {
+                        'id': '',
+                        'htmlAttributes': {
+                            'id': ''
+                        }
+                    }
+                }
+            ]
+        }
+    );
+
+    t.end();
 });

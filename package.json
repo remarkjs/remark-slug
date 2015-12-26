@@ -37,13 +37,13 @@
     "remark-lint": "^2.0.0",
     "remark-usage": "^2.0.0",
     "remark-validate-links": "^2.0.0",
-    "mocha": "^2.0.0",
     "slug": "^0.9.0",
+    "tape": "^4.0.0",
     "to-slug-case": "^0.1.0"
   },
   "scripts": {
-    "test-api": "mocha --check-leaks test.js",
-    "test-coverage": "istanbul cover _mocha -- test.js",
+    "test-api": "node test.js",
+    "test-coverage": "istanbul cover test.js",
     "test-travis": "npm run test-coverage",
     "test": "npm run test-api",
     "lint-api": "eslint .",
