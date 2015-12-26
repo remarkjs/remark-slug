@@ -1,13 +1,5 @@
 # remark-slug [![Build Status](https://img.shields.io/travis/wooorm/remark-slug.svg)](https://travis-ci.org/wooorm/remark-slug) [![Coverage Status](https://img.shields.io/codecov/c/github/wooorm/remark-slug.svg)](https://codecov.io/github/wooorm/remark-slug)
 
-> :warning: **mdast is currently being renamed to remark** :warning:
-> 
-> This means all plug-ins and relating projects change too, causing many
-> changes across the ecosystem. Expect the dust to settle in roughly a day.
-> 
-> See this project at the previous stable commit
-> [c4a51d1](https://github.com/wooorm/remark-github/commit/c4a51d1).
-
 Add anchors to [**remark**](https://github.com/wooorm/remark) heading nodes.
 
 > Works great with [**remark-html**](https://github.com/wooorm/remark-html),

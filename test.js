@@ -7,7 +7,7 @@
  */
 
 var slug = require('./');
-var mdast = require('mdast');
+var remark = require('remark');
 var assert = require('assert');
 
 /*
@@ -19,7 +19,7 @@ var deepEqual = assert.deepEqual;
 var throws = assert.throws;
 
 /**
- * Parse `doc` with mdast, and apply `slug` to
+ * Parse `doc` with remark, and apply `slug` to
  * the resulting `ast` with `options`.
  *
  * @param {string} doc - Document.
@@ -27,7 +27,7 @@ var throws = assert.throws;
  * @return {Node} - Parsed and transformed `doc`.
  */
 function process(doc, options) {
-    var processor = mdast().use(slug, options);
+    var processor = remark().use(slug, options);
 
     return processor.run(processor.parse(doc, {
         'position': false
@@ -148,7 +148,7 @@ describe('remark-slug', function () {
     });
 
     it('should not overwrite `data` on headings', function () {
-        var processor = mdast().use(slug);
+        var processor = remark().use(slug);
         var ast = processor.parse('# Normal', {
             'position': false
         });
@@ -163,7 +163,7 @@ describe('remark-slug', function () {
     });
 
     it('should not overwrite `data.htmlAttributes` on headings', function () {
-        var processor = mdast().use(slug);
+        var processor = remark().use(slug);
         var ast = processor.parse('# Normal', {
             'position': false
         });
