@@ -18,7 +18,11 @@
     "repeat-string": "^1.5.0",
     "slugg": "^0.1.0"
   },
-  "repository": "wooorm/remark-slug",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wooorm/remark-slug.git"
+  },
+  "bugs": "https://github.com/wooorm/remark-slug/issues",
   "author": "Titus Wormer <tituswormer@gmail.com>",
   "files": [
     "index.js"
