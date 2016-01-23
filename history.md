@@ -2,6 +2,11 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+4.0.0 / 2016-01-23
+==================
+
+*   Refactor API ([`4104cd2`](https://github.com/wooorm/remark-slug/commit/4104cd2))
+
 3.0.2 / 2016-01-23
 ==================
 
