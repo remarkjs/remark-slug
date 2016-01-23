@@ -2,6 +2,16 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+3.0.2 / 2016-01-23
+==================
+
+*   Fix underscore handling in GitHub slugs ([`7776e2f`](https://github.com/wooorm/remark-slug/commit/7776e2f))
+*   Refactor `readme.md` ([`2cbdf1a`](https://github.com/wooorm/remark-slug/commit/2cbdf1a))
+*   Add npm deployment to Travis ([`87374f8`](https://github.com/wooorm/remark-slug/commit/87374f8))
+*   Update metadata in `package.json` ([`ec18888`](https://github.com/wooorm/remark-slug/commit/ec18888))
+*   Add file documentation to `test.js` ([`ede8671`](https://github.com/wooorm/remark-slug/commit/ede8671))
+*   Update dev-dependencies ([`518d312`](https://github.com/wooorm/remark-slug/commit/518d312))
+
 3.0.1 / 2015-12-26
 ==================
 
