@@ -1,22 +1,21 @@
-# remark-slug [![Build Status](https://img.shields.io/travis/wooorm/remark-slug.svg)](https://travis-ci.org/wooorm/remark-slug) [![Coverage Status](https://img.shields.io/codecov/c/github/wooorm/remark-slug.svg)](https://codecov.io/github/wooorm/remark-slug)
+# remark-slug [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
 
-Add anchors to [**remark**](https://github.com/wooorm/remark) heading nodes.
+Add anchors to [**remark**][remark] heading nodes.
 
-> Works great with [**remark-html**](https://github.com/wooorm/remark-html),
-> used by [**remark-toc**](https://github.com/wooorm/remark-toc) and
-> [**remark-man**](https://github.com/wooorm/remark-man).
+> Works great with [**remark-html**][remark-html],
+> used by [**remark-toc**][remark-toc] and
+> [**remark-man**][remark-man].
 
 ## Installation
 
-[npm](https://docs.npmjs.com/cli/install):
+[npm][npm-install]:
 
 ```bash
 npm install remark-slug
 ```
 
-**remark-slug** is also available for [duo](http://duojs.org/#getting-started),
-and as an AMD, CommonJS, and globals module, [uncompressed and
-compressed](https://github.com/wooorm/remark-slug/releases).
+**remark-slug** is also available for [duo][duo-install], and as an
+AMD, CommonJS, and globals module, [uncompressed and compressed][releases].
 
 ## Usage
 
@@ -49,7 +48,7 @@ remark ... -u 'remark-slug=library:"npm"'
 
 ## API
 
-### [remark](https://github.com/wooorm/remark#api).[use](https://github.com/wooorm/remark#remarkuseplugin-options)(slug, options)
+### `remark.use(slug[, options])`
 
 Adds slugs to markdown headings.
 
@@ -70,7 +69,7 @@ Parameters:
 
         *   `'npm'`
             — Slugs just like npm (caveat: npm doesn’t support links in
-            headings, [yet](https://github.com/npm/marky-markdown/pull/38));
+            headings, [yet][marky-pr]);
 
         *   `string` (e.g., `'slug'`, `'slugg'`)
             — Library to require (not in the browser);
@@ -80,4 +79,34 @@ Parameters:
 
 ## License
 
-[MIT](LICENSE) © [Titus Wormer](http://wooorm.com)
+[MIT][license] © [Titus Wormer][author]
+
+<!-- Definitions -->
+
+[travis-badge]: https://img.shields.io/travis/wooorm/remark-slug.svg
+
+[travis]: https://travis-ci.org/wooorm/remark-slug
+
+[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/remark-slug.svg
+
+[codecov]: https://codecov.io/github/wooorm/remark-slug
+
+[npm-install]: https://docs.npmjs.com/cli/install
+
+[duo-install]: http://duojs.org/#getting-started
+
+[releases]: https://github.com/wooorm/remark-slug/releases
+
+[license]: LICENSE
+
+[author]: http://wooorm.com
+
+[marky-pr]: https://github.com/npm/marky-markdown/pull/38
+
+[remark]: https://github.com/wooorm/remark
+
+[remark-html]: https://github.com/wooorm/remark-html
+
+[remark-toc]: https://github.com/wooorm/remark-toc
+
+[remark-man]: https://github.com/wooorm/remark-man
