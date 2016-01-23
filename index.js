@@ -62,6 +62,7 @@ var NPM = 'npm';
 var GITHUB = 'github';
 var SLUGG = 'slugg';
 var DASH = '-';
+var UNDERSCORE = '_';
 
 var DEFAULT_LIBRARY = GITHUB;
 
@@ -144,7 +145,7 @@ function githubFactory(library) {
     function separator($0) {
         var match = $0.match(/\s/g);
 
-        if ($0 === DASH) {
+        if ($0 === DASH || $0 === UNDERSCORE) {
             return $0;
         }
 

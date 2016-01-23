@@ -212,7 +212,16 @@ test('github', function (t) {
         '# ',
         '',
         '😄-😄',
-        '==='
+        '===',
+        '',
+        '## :ok: No underscore',
+        '',
+        '## :ok_hand: Single',
+        '',
+        '## :ok_hand::hatched_chick: Two in a row with no spaces',
+        '',
+        '## :ok_hand: :hatched_chick: Two in a row',
+        ''
     ].join('\n')),
     {
         'type': 'root',
@@ -273,6 +282,73 @@ test('github', function (t) {
                     'id': '',
                     'htmlAttributes': {
                         'id': ''
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': ':ok: No underscore'
+                    }
+                ],
+                'data': {
+                    'id': 'ok-no-underscore',
+                    'htmlAttributes': {
+                        'id': 'ok-no-underscore'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': ':ok_hand: Single'
+                    }
+                ],
+                'data': {
+                    'id': 'ok_hand-single',
+                    'htmlAttributes': {
+                        'id': 'ok_hand-single'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': ':ok_hand::hatched_chick: Two ' +
+                            'in a row with no spaces'
+                    }
+                ],
+                'data': {
+                    'id': 'ok_handhatched_chick-two-in-a-row-' +
+                        'with-no-spaces',
+                    'htmlAttributes': {
+                        'id': 'ok_handhatched_chick-two-in-a-row-' +
+                            'with-no-spaces'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': ':ok_hand: :hatched_chick: Two in a row'
+                    }
+                ],
+                'data': {
+                    'id': 'ok_hand-hatched_chick-two-in-a-row',
+                    'htmlAttributes': {
+                        'id': 'ok_hand-hatched_chick-two-in-a-row'
                     }
                 }
             }
