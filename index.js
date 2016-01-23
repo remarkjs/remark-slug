@@ -16,225 +16,51 @@
 
 var toString = require('mdast-util-to-string');
 var visit = require('unist-util-visit');
-var repeat = require('repeat-string');
-
-var slugg = null;
-var fs = {};
-var path = {};
-var proc = {};
-
-try {
-    slugg = require('slugg');
-} catch (exception) {/* empty */}
-
-try {
-    fs = require('fs');
-} catch (exception) {/* empty */}
-
-try {
-    path = require('path');
-} catch (exception) {/* empty */}
-
-/*
- * Hide process use from browserify and component.
- */
-
-/* istanbul ignore else */
-if (typeof global !== 'undefined') {
-    /* global global */
-    proc = global.process;
-}
-
-/*
- * Methods.
- */
-
-var exists = fs.existsSync;
-var resolve = path.resolve;
-
-/*
- * Constants.
- */
-
-var MODULES = 'node_modules';
-var EXTENSION = '.js';
-var NPM = 'npm';
-var GITHUB = 'github';
-var SLUGG = 'slugg';
-var DASH = '-';
-var UNDERSCORE = '_';
-
-var DEFAULT_LIBRARY = GITHUB;
+var slugs = require('github-slugger')();
 
 /**
- * Find a library.
+ * Patch `value` on `context` at `key`, if
+ * `context[key]` does not already exist.
  *
- * @param {string} pathlike - File-path-like to load.
- * @return {*} - Library.
+ * @param {Object} context - Context to patch.
+ * @param {string} key - Key to patch at.
+ * @param {*} value - Value to patch.
  */
-function loadLibrary(pathlike) {
-    var cwd;
-    var local;
-    var npm;
-    var plugin;
-
-    if (pathlike === SLUGG && slugg) {
-        return slugg;
+function patch(context, key, value) {
+    if (!context[key]) {
+        context[key] = value;
     }
 
-    cwd = proc.cwd && proc.cwd();
-
-    /* istanbul ignore if */
-    if (!cwd) {
-        throw new Error('Cannot lazy load library when not in node');
-    }
-
-    local = resolve(cwd, pathlike);
-    npm = resolve(cwd, MODULES, pathlike);
-
-    if (exists(local) || exists(local + EXTENSION)) {
-        plugin = local;
-    } else if (exists(npm)) {
-        plugin = npm;
-    } else {
-        plugin = pathlike;
-    }
-
-    return require(plugin);
+    return context[key];
 }
 
 /**
- * Wraps `slugg` to generate slugs just like npm would.
+ * Patch slugs on heading nodes.
  *
- * @see https://github.com/npm/marky-markdown/blob/9761c95/lib/headings.js#L17
+ * Transformer is invoked for every file, so there’s no need
+ * to specify extra logic to get per-file slug pools.
  *
- * @param {function(string): string} library - Value to
- *   slugify.
- * @return {function(string): string} - Modifier.
+ * @param {Node} ast - Root node.
  */
-function npmFactory(library) {
-    /**
-     * Generate slugs just like npm would.
-     *
-     * @param {string} value - Value to slugify.
-     * @return {string} - Slug.
-     */
-    function npm(value) {
-        return library(value).replace(/[<>]/g, '').toLowerCase();
-    }
+function transformer(ast) {
+    slugs.reset();
 
-    return npm;
-}
+    visit(ast, 'heading', function (node) {
+        var id = slugs.slug(toString(node));
+        var data = patch(node, 'data', {});
 
-/**
- * Wraps `slugg` to generate slugs just like GitHub would.
- *
- * @param {function(string): string} library - Library to
- *   use.
- * @return {function(string): string} - Modifier.
- */
-function githubFactory(library) {
-    /**
-     * Hacky.  Sometimes `slugg` uses `replacement` as an
-     * argument to `String#replace()`, and sometimes as
-     * a literal string.
-     *
-     * @param {string} $0 - Value to transform.
-     * @return {string} - Replacement.
-     */
-    function separator($0) {
-        var match = $0.match(/\s/g);
-
-        if ($0 === DASH || $0 === UNDERSCORE) {
-            return $0;
-        }
-
-        return repeat(DASH, match ? match.length : 0);
-    }
-
-    /**
-     * @see seperator
-     * @return {string} - Dash.
-     */
-    function dash() {
-        return DASH;
-    }
-
-    separator.toString = dash;
-
-    /**
-     * Generate slugs just like GitHub would.
-     *
-     * @param {string} value - Value to slugify.
-     * @return {string} - Slug.
-     */
-    function github(value) {
-        return library(value, separator).toLowerCase();
-    }
-
-    return github;
+        patch(data, 'id', id);
+        patch(data, 'htmlAttributes', {});
+        patch(data.htmlAttributes, 'id', id);
+    });
 }
 
 /**
  * Attacher.
  *
- * @param {Remark} remark - Processor.
- * @param {Object?} [options] - Configuration.
- * @return {function(node)} - Transformer.
+ * @return {Function} - Transformer.
  */
-function attacher(remark, options) {
-    var settings = options || {};
-    var library = settings.library || DEFAULT_LIBRARY;
-    var isNPM = library === NPM;
-    var isGitHub = library === GITHUB;
-
-    if (isNPM || isGitHub) {
-        library = SLUGG;
-    }
-
-    if (typeof library === 'string') {
-        library = loadLibrary(library);
-    }
-
-    if (isNPM) {
-        library = npmFactory(library);
-    } else if (isGitHub) {
-        library = githubFactory(library);
-    }
-
-    /**
-     * Patch `value` on `context` at `key`, if
-     * `context[key]` does not already exist.
-     *
-     * @param {Object} context - Context to patch.
-     * @param {string} key - Key to patch at.
-     * @param {*} value - Value to patch.
-     */
-    function patch(context, key, value) {
-        if (!context[key]) {
-            context[key] = value;
-        }
-
-        return context[key];
-    }
-
-    /**
-     * Adds an example section based on a valid example
-     * JavaScript document to a `Usage` section.
-     *
-     * @param {Node} ast - Root node.
-     */
-    function transformer(ast) {
-        visit(ast, 'heading', function (node) {
-            var id = library(toString(node));
-            var data = patch(node, 'data', {});
-
-            patch(data, 'id', id);
-            patch(data, 'htmlAttributes', {});
-            patch(data.htmlAttributes, 'id', id);
-        });
-    }
-
+function attacher() {
     return transformer;
 }
 

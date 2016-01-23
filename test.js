@@ -39,92 +39,8 @@ function process(doc, options) {
  */
 
 test('remark-slug', function (t) {
+    var processor = remark().use(slug);
     var ast;
-    var processor;
-
-    t.deepEqual(
-        process('# I ♥ unicode', {
-            'library': require('to-slug-case')
-        }),
-        {
-            'type': 'root',
-            'children': [
-                {
-                    'type': 'heading',
-                    'depth': 1,
-                    'children': [
-                        {
-                            'type': 'text',
-                            'value': 'I ♥ unicode'
-                        }
-                    ],
-                    'data': {
-                        'id': 'i-unicode',
-                        'htmlAttributes': {
-                            'id': 'i-unicode'
-                        }
-                    }
-                }
-            ]
-        },
-        'should accept `library` as a function'
-    );
-
-    t.deepEqual(
-        process('# I ♥ unicode', {
-            'library': 'to-slug-case'
-        }),
-        {
-            'type': 'root',
-            'children': [
-                {
-                    'type': 'heading',
-                    'depth': 1,
-                    'children': [
-                        {
-                            'type': 'text',
-                            'value': 'I ♥ unicode'
-                        }
-                    ],
-                    'data': {
-                        'id': 'i-unicode',
-                        'htmlAttributes': {
-                            'id': 'i-unicode'
-                        }
-                    }
-                }
-            ]
-        },
-        'should accept `library` as a package name'
-    );
-
-    t.deepEqual(
-        process('# I ♥ unicode', {
-            'library': 'node_modules/to-slug-case/index'
-        }),
-        {
-            'type': 'root',
-            'children': [
-                {
-                    'type': 'heading',
-                    'depth': 1,
-                    'children': [
-                        {
-                            'type': 'text',
-                            'value': 'I ♥ unicode'
-                        }
-                    ],
-                    'data': {
-                        'id': 'i-unicode',
-                        'htmlAttributes': {
-                            'id': 'i-unicode'
-                        }
-                    }
-                }
-            ]
-        },
-        'should accept `library` as a file'
-    );
 
     ast = process([
         '# Normal',
@@ -152,8 +68,6 @@ test('remark-slug', function (t) {
     t.equal(ast.children[1].data.htmlAttributes.id, 'table-of-contents');
     t.equal(ast.children[2].data.htmlAttributes.id, 'baz');
 
-    processor = remark().use(slug);
-
     ast = processor.parse('# Normal', {
         'position': false
     });
@@ -169,8 +83,6 @@ test('remark-slug', function (t) {
         'bar',
         'should not overwrite `data` on headings'
     );
-
-    processor = remark().use(slug);
 
     ast = processor.parse('# Normal', {
         'position': false
@@ -190,29 +102,36 @@ test('remark-slug', function (t) {
         'should not overwrite `data.htmlAttributes` on headings'
     );
 
-    t.throws(
-        function () {
-            process('', {
-                'library': 'foo'
-            });
-        },
-        /Cannot find module 'foo'/,
-        'should throw when a plugin cannot be found'
-    );
-
     t.end();
 });
 
-test('github', function (t) {
+test('slugs', function (t) {
     t.deepEqual(process([
-        '# I ♥ unicode',
+        '## I ♥ unicode',
         '',
-        '# Foo-bar',
+        '## Dash-dash',
         '',
-        '# ',
+        '## en–dash',
         '',
-        '😄-😄',
-        '===',
+        '## em–dash',
+        '',
+        '## 😄 unicode emoji',
+        '',
+        '## 😄-😄 unicode emoji',
+        '',
+        '## 😄_😄 unicode emoji',
+        '',
+        '##',
+        '',
+        '## ',
+        '',
+        '##     Initial spaces',
+        '',
+        '## Final spaces   ',
+        '',
+        '## Duplicate',
+        '',
+        '## Duplicate',
         '',
         '## :ok: No underscore',
         '',
@@ -228,7 +147,7 @@ test('github', function (t) {
         'children': [
             {
                 'type': 'heading',
-                'depth': 1,
+                'depth': 2,
                 'children': [
                     {
                         'type': 'text',
@@ -244,23 +163,103 @@ test('github', function (t) {
             },
             {
                 'type': 'heading',
-                'depth': 1,
+                'depth': 2,
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Foo-bar'
+                        'value': 'Dash-dash'
                     }
                 ],
                 'data': {
-                    'id': 'foo-bar',
+                    'id': 'dash-dash',
                     'htmlAttributes': {
-                        'id': 'foo-bar'
+                        'id': 'dash-dash'
                     }
                 }
             },
             {
                 'type': 'heading',
-                'depth': 1,
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': 'en–dash'
+                    }
+                ],
+                'data': {
+                    'id': 'endash',
+                    'htmlAttributes': {
+                        'id': 'endash'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': 'em–dash'
+                    }
+                ],
+                'data': {
+                    'id': 'emdash',
+                    'htmlAttributes': {
+                        'id': 'emdash'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': '😄 unicode emoji'
+                    }
+                ],
+                'data': {
+                    'id': '-unicode-emoji',
+                    'htmlAttributes': {
+                        'id': '-unicode-emoji'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': '😄-😄 unicode emoji'
+                    }
+                ],
+                'data': {
+                    'id': '--unicode-emoji',
+                    'htmlAttributes': {
+                        'id': '--unicode-emoji'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': '😄_😄 unicode emoji'
+                    }
+                ],
+                'data': {
+                    'id': '_-unicode-emoji',
+                    'htmlAttributes': {
+                        'id': '_-unicode-emoji'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
                 'children': [],
                 'data': {
                     'id': '',
@@ -271,17 +270,76 @@ test('github', function (t) {
             },
             {
                 'type': 'heading',
-                'depth': 1,
+                'depth': 2,
+                'children': [],
+                'data': {
+                    'id': '-8', // bug in github-slugger
+                    'htmlAttributes': {
+                        'id': '-8'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
                 'children': [
                     {
                         'type': 'text',
-                        'value': '😄-😄'
+                        'value': 'Initial spaces'
                     }
                 ],
                 'data': {
-                    'id': '',
+                    'id': 'initial-spaces',
                     'htmlAttributes': {
-                        'id': ''
+                        'id': 'initial-spaces'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': 'Final spaces'
+                    }
+                ],
+                'data': {
+                    'id': 'final-spaces',
+                    'htmlAttributes': {
+                        'id': 'final-spaces'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': 'Duplicate'
+                    }
+                ],
+                'data': {
+                    'id': 'duplicate',
+                    'htmlAttributes': {
+                        'id': 'duplicate'
+                    }
+                }
+            },
+            {
+                'type': 'heading',
+                'depth': 2,
+                'children': [
+                    {
+                        'type': 'text',
+                        'value': 'Duplicate'
+                    }
+                ],
+                'data': {
+                    'id': 'duplicate-1',
+                    'htmlAttributes': {
+                        'id': 'duplicate-1'
                     }
                 }
             },
@@ -354,89 +412,6 @@ test('github', function (t) {
             }
         ]
     });
-
-    t.end();
-});
-
-test('npm', function (t) {
-    t.deepEqual(
-        process([
-            '# I ♥ unicode',
-            '',
-            '# Foo-bar',
-            '',
-            '# ',
-            '',
-            '😄-😄',
-            '==='
-        ].join('\n'), {
-            'library': 'npm'
-        }),
-        {
-            'type': 'root',
-            'children': [
-                {
-                    'type': 'heading',
-                    'depth': 1,
-                    'children': [
-                        {
-                            'type': 'text',
-                            'value': 'I ♥ unicode'
-                        }
-                    ],
-                    'data': {
-                        'id': 'i-unicode',
-                        'htmlAttributes': {
-                            'id': 'i-unicode'
-                        }
-                    }
-                },
-                {
-                    'type': 'heading',
-                    'depth': 1,
-                    'children': [
-                        {
-                            'type': 'text',
-                            'value': 'Foo-bar'
-                        }
-                    ],
-                    'data': {
-                        'id': 'foo-bar',
-                        'htmlAttributes': {
-                            'id': 'foo-bar'
-                        }
-                    }
-                },
-                {
-                    'type': 'heading',
-                    'depth': 1,
-                    'children': [],
-                    'data': {
-                        'id': '',
-                        'htmlAttributes': {
-                            'id': ''
-                        }
-                    }
-                },
-                {
-                    'type': 'heading',
-                    'depth': 1,
-                    'children': [
-                        {
-                            'type': 'text',
-                            'value': '😄-😄'
-                        }
-                    ],
-                    'data': {
-                        'id': '',
-                        'htmlAttributes': {
-                            'id': ''
-                        }
-                    }
-                }
-            ]
-        }
-    );
 
     t.end();
 });

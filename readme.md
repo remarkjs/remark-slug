@@ -1,6 +1,7 @@
 # remark-slug [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
 
-Add anchors to [**remark**][remark] heading nodes.
+Add anchors to [**remark**][remark] heading nodes using GitHub’s
+algorithm.
 
 > Works great with [**remark-html**][remark-html],
 > used by [**remark-toc**][remark-toc] and
@@ -42,13 +43,12 @@ Yields:
 ## CLI
 
 ```bash
-remark ... -u remark-slug
-remark ... -u 'remark-slug=library:"npm"'
+remark readme.md -u slug
 ```
 
 ## API
 
-### `remark.use(slug[, options])`
+### `remark.use(slug)`
 
 Adds slugs to markdown headings.
 
@@ -59,23 +59,7 @@ values when they already exist.
 
 Parameters:
 
-*   `slug` — This plugin;
-
-*   `options` (`Object?`)
-
-    *   `'library'` — (`string` or `Function`, default: `'github'`):
-
-        *   `'github'` — Slugs just like GitHub;
-
-        *   `'npm'`
-            — Slugs just like npm (caveat: npm doesn’t support links in
-            headings, [yet][marky-pr]);
-
-        *   `string` (e.g., `'slug'`, `'slugg'`)
-            — Library to require (not in the browser);
-
-        *   `Function` (e.g., `require('slugg')`)
-            — Library to use.
+*   `slug` — This plugin.
 
 ## License
 
@@ -100,8 +84,6 @@ Parameters:
 [license]: LICENSE
 
 [author]: http://wooorm.com
-
-[marky-pr]: https://github.com/npm/marky-markdown/pull/38
 
 [remark]: https://github.com/wooorm/remark
 
