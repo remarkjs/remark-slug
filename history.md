@@ -2,6 +2,11 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+4.1.0 / 2016-02-14
+==================
+
+*   Remove Duo support ([`069638c`](https://github.com/wooorm/remark-slug/commit/069638c))
+
 4.0.0 / 2016-01-23
 ==================
 
