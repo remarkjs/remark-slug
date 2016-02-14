@@ -15,8 +15,8 @@ algorithm.
 npm install remark-slug
 ```
 
-**remark-slug** is also available for [duo][duo-install], and as an
-AMD, CommonJS, and globals module, [uncompressed and compressed][releases].
+**remark-slug** is also available as an AMD, CommonJS, and globals
+module, [uncompressed and compressed][releases].
 
 ## Usage
 
@@ -76,8 +76,6 @@ Parameters:
 [codecov]: https://codecov.io/github/wooorm/remark-slug
 
 [npm-install]: https://docs.npmjs.com/cli/install
-
-[duo-install]: http://duojs.org/#getting-started
 
 [releases]: https://github.com/wooorm/remark-slug/releases
 
