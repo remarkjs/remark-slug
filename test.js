@@ -273,9 +273,9 @@ test('slugs', function (t) {
                 'depth': 2,
                 'children': [],
                 'data': {
-                    'id': '-8', // bug in github-slugger
+                    'id': '-1',
                     'htmlAttributes': {
-                        'id': '-8'
+                        'id': '-1'
                     }
                 }
             },
