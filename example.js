@@ -4,7 +4,7 @@ var remark = require('remark');
 var html = require('remark-html');
 
 // Process:
-var doc = remark().use(slug).use(html).process('# Foo bar');
+var file = remark().use(slug).use(html).process('# Foo bar');
 
 // Yields:
-console.log('html', doc);
+console.log('html', String(file));

@@ -4,6 +4,7 @@
     "comment-config",
     "lint",
     "github",
+    "usage",
     "./",
     "validate-links"
   ],
