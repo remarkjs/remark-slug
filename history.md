@@ -2,6 +2,12 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+4.1.1 / 2016-06-13
+==================
+
+*   Update `readme.md` ([`6cd385e`](https://github.com/wooorm/remark-slug/commit/6cd385e))
+*   Update dev-dependencies ([`65d8cab`](https://github.com/wooorm/remark-slug/commit/65d8cab))
+
 4.1.0 / 2016-02-14
 ==================
 
