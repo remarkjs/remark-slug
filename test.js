@@ -151,7 +151,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'I ♥ unicode'
+                        'value': 'I ♥ unicode',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -159,7 +160,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'i--unicode'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -167,7 +169,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Dash-dash'
+                        'value': 'Dash-dash',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -175,7 +178,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'dash-dash'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -183,7 +187,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'en–dash'
+                        'value': 'en–dash',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -191,7 +196,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'endash'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -199,7 +205,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'em–dash'
+                        'value': 'em–dash',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -207,7 +214,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'emdash'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -215,7 +223,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': '😄 unicode emoji'
+                        'value': '😄 unicode emoji',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -223,7 +232,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': '-unicode-emoji'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -231,7 +241,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': '😄-😄 unicode emoji'
+                        'value': '😄-😄 unicode emoji',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -239,7 +250,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': '--unicode-emoji'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -247,7 +259,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': '😄_😄 unicode emoji'
+                        'value': '😄_😄 unicode emoji',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -255,7 +268,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': '_-unicode-emoji'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -266,7 +280,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': ''
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -277,7 +292,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': '-1'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -285,7 +301,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Initial spaces'
+                        'value': 'Initial spaces',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -293,7 +310,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'initial-spaces'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -301,7 +319,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Final spaces'
+                        'value': 'Final spaces',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -309,7 +328,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'final-spaces'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -317,7 +337,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Duplicate'
+                        'value': 'Duplicate',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -325,7 +346,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'duplicate'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -333,7 +355,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Duplicate'
+                        'value': 'Duplicate',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -341,7 +364,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'duplicate-1'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -349,7 +373,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': ':ok: No underscore'
+                        'value': ':ok: No underscore',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -357,7 +382,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'ok-no-underscore'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -365,7 +391,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': ':ok_hand: Single'
+                        'value': ':ok_hand: Single',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -373,7 +400,8 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'ok_hand-single'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -382,7 +410,8 @@ test('slugs', function (t) {
                     {
                         'type': 'text',
                         'value': ':ok_hand::hatched_chick: Two ' +
-                            'in a row with no spaces'
+                            'in a row with no spaces',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -392,7 +421,8 @@ test('slugs', function (t) {
                         'id': 'ok_handhatched_chick-two-in-a-row-' +
                             'with-no-spaces'
                     }
-                }
+                },
+                'position': undefined
             },
             {
                 'type': 'heading',
@@ -400,7 +430,8 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': ':ok_hand: :hatched_chick: Two in a row'
+                        'value': ':ok_hand: :hatched_chick: Two in a row',
+                        'position': undefined
                     }
                 ],
                 'data': {
@@ -408,9 +439,11 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'ok_hand-hatched_chick-two-in-a-row'
                     }
-                }
+                },
+                'position': undefined
             }
-        ]
+        ],
+        'position': undefined
     });
 
     t.end();
