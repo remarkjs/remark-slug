@@ -64,9 +64,9 @@ test('remark-slug', function (t) {
         ''
     ].join('\n'));
 
-    t.equal(ast.children[0].data.htmlAttributes.id, 'normal');
-    t.equal(ast.children[1].data.htmlAttributes.id, 'table-of-contents');
-    t.equal(ast.children[2].data.htmlAttributes.id, 'baz');
+    t.equal(ast.children[0].data.hProperties.id, 'normal');
+    t.equal(ast.children[1].data.hProperties.id, 'table-of-contents');
+    t.equal(ast.children[2].data.hProperties.id, 'baz');
 
     ast = processor.parse('# Normal', {
         'position': false
@@ -89,17 +89,17 @@ test('remark-slug', function (t) {
     });
 
     ast.children[0].data = {
-        'htmlAttributes': {
-            'class': 'bar'
+        'hProperties': {
+            'className': 'bar'
         }
     };
 
     processor.run(ast);
 
     t.equal(
-        ast.children[0].data.htmlAttributes.class,
+        ast.children[0].data.hProperties.className,
         'bar',
-        'should not overwrite `data.htmlAttributes` on headings'
+        'should not overwrite `data.hProperties` on headings'
     );
 
     t.end();
@@ -159,6 +159,9 @@ test('slugs', function (t) {
                     'id': 'i--unicode',
                     'htmlAttributes': {
                         'id': 'i--unicode'
+                    },
+                    'hProperties': {
+                        'id': 'i--unicode'
                     }
                 },
                 'position': undefined
@@ -176,6 +179,9 @@ test('slugs', function (t) {
                 'data': {
                     'id': 'dash-dash',
                     'htmlAttributes': {
+                        'id': 'dash-dash'
+                    },
+                    'hProperties': {
                         'id': 'dash-dash'
                     }
                 },
@@ -195,6 +201,9 @@ test('slugs', function (t) {
                     'id': 'endash',
                     'htmlAttributes': {
                         'id': 'endash'
+                    },
+                    'hProperties': {
+                        'id': 'endash'
                     }
                 },
                 'position': undefined
@@ -212,6 +221,9 @@ test('slugs', function (t) {
                 'data': {
                     'id': 'emdash',
                     'htmlAttributes': {
+                        'id': 'emdash'
+                    },
+                    'hProperties': {
                         'id': 'emdash'
                     }
                 },
@@ -231,6 +243,9 @@ test('slugs', function (t) {
                     'id': '-unicode-emoji',
                     'htmlAttributes': {
                         'id': '-unicode-emoji'
+                    },
+                    'hProperties': {
+                        'id': '-unicode-emoji'
                     }
                 },
                 'position': undefined
@@ -248,6 +263,9 @@ test('slugs', function (t) {
                 'data': {
                     'id': '--unicode-emoji',
                     'htmlAttributes': {
+                        'id': '--unicode-emoji'
+                    },
+                    'hProperties': {
                         'id': '--unicode-emoji'
                     }
                 },
@@ -267,6 +285,9 @@ test('slugs', function (t) {
                     'id': '_-unicode-emoji',
                     'htmlAttributes': {
                         'id': '_-unicode-emoji'
+                    },
+                    'hProperties': {
+                        'id': '_-unicode-emoji'
                     }
                 },
                 'position': undefined
@@ -279,6 +300,9 @@ test('slugs', function (t) {
                     'id': '',
                     'htmlAttributes': {
                         'id': ''
+                    },
+                    'hProperties': {
+                        'id': ''
                     }
                 },
                 'position': undefined
@@ -290,6 +314,9 @@ test('slugs', function (t) {
                 'data': {
                     'id': '-1',
                     'htmlAttributes': {
+                        'id': '-1'
+                    },
+                    'hProperties': {
                         'id': '-1'
                     }
                 },
@@ -309,6 +336,9 @@ test('slugs', function (t) {
                     'id': 'initial-spaces',
                     'htmlAttributes': {
                         'id': 'initial-spaces'
+                    },
+                    'hProperties': {
+                        'id': 'initial-spaces'
                     }
                 },
                 'position': undefined
@@ -326,6 +356,9 @@ test('slugs', function (t) {
                 'data': {
                     'id': 'final-spaces',
                     'htmlAttributes': {
+                        'id': 'final-spaces'
+                    },
+                    'hProperties': {
                         'id': 'final-spaces'
                     }
                 },
@@ -345,6 +378,9 @@ test('slugs', function (t) {
                     'id': 'duplicate',
                     'htmlAttributes': {
                         'id': 'duplicate'
+                    },
+                    'hProperties': {
+                        'id': 'duplicate'
                     }
                 },
                 'position': undefined
@@ -362,6 +398,9 @@ test('slugs', function (t) {
                 'data': {
                     'id': 'duplicate-1',
                     'htmlAttributes': {
+                        'id': 'duplicate-1'
+                    },
+                    'hProperties': {
                         'id': 'duplicate-1'
                     }
                 },
@@ -381,6 +420,9 @@ test('slugs', function (t) {
                     'id': 'ok-no-underscore',
                     'htmlAttributes': {
                         'id': 'ok-no-underscore'
+                    },
+                    'hProperties': {
+                        'id': 'ok-no-underscore'
                     }
                 },
                 'position': undefined
@@ -398,6 +440,9 @@ test('slugs', function (t) {
                 'data': {
                     'id': 'ok_hand-single',
                     'htmlAttributes': {
+                        'id': 'ok_hand-single'
+                    },
+                    'hProperties': {
                         'id': 'ok_hand-single'
                     }
                 },
@@ -420,6 +465,10 @@ test('slugs', function (t) {
                     'htmlAttributes': {
                         'id': 'ok_handhatched_chick-two-in-a-row-' +
                             'with-no-spaces'
+                    },
+                    'hProperties': {
+                        'id': 'ok_handhatched_chick-two-in-a-row-' +
+                            'with-no-spaces'
                     }
                 },
                 'position': undefined
@@ -437,6 +486,9 @@ test('slugs', function (t) {
                 'data': {
                     'id': 'ok_hand-hatched_chick-two-in-a-row',
                     'htmlAttributes': {
+                        'id': 'ok_hand-hatched_chick-two-in-a-row'
+                    },
+                    'hProperties': {
                         'id': 'ok_hand-hatched_chick-two-in-a-row'
                     }
                 },
