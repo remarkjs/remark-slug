@@ -2,6 +2,11 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+4.2.0 / 2016-06-18
+==================
+
+*   Add support for virtual-based `remark-html` ([`6f76a79`](https://github.com/wooorm/remark-slug/commit/6f76a79))
+
 4.1.1 / 2016-06-13
 ==================
 
