@@ -2,6 +2,11 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+4.2.1 / 2016-08-21
+==================
+
+*   Update tests for new remark ([`3b435ee`](https://github.com/wooorm/remark-slug/commit/3b435ee))
+
 4.2.0 / 2016-06-18
 ==================
 
