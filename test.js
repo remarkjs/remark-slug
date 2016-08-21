@@ -17,6 +17,7 @@
 var test = require('tape');
 var slug = require('./');
 var remark = require('remark');
+var removePosition = require('unist-util-remove-position');
 
 /**
  * Parse `doc` with remark, and apply `slug` to
@@ -28,10 +29,11 @@ var remark = require('remark');
  */
 function process(doc, options) {
     var processor = remark().use(slug, options);
+    var tree = processor.run(processor.parse(doc));
 
-    return processor.run(processor.parse(doc, {
-        'position': false
-    }));
+    removePosition(tree, true);
+
+    return tree;
 }
 
 /*
@@ -151,8 +153,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'I ♥ unicode',
-                        'position': undefined
+                        'value': 'I ♥ unicode'
                     }
                 ],
                 'data': {
@@ -163,8 +164,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'i--unicode'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -172,8 +172,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Dash-dash',
-                        'position': undefined
+                        'value': 'Dash-dash'
                     }
                 ],
                 'data': {
@@ -184,8 +183,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'dash-dash'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -193,8 +191,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'en–dash',
-                        'position': undefined
+                        'value': 'en–dash'
                     }
                 ],
                 'data': {
@@ -205,8 +202,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'endash'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -214,8 +210,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'em–dash',
-                        'position': undefined
+                        'value': 'em–dash'
                     }
                 ],
                 'data': {
@@ -226,8 +221,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'emdash'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -235,8 +229,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': '😄 unicode emoji',
-                        'position': undefined
+                        'value': '😄 unicode emoji'
                     }
                 ],
                 'data': {
@@ -247,8 +240,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': '-unicode-emoji'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -256,8 +248,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': '😄-😄 unicode emoji',
-                        'position': undefined
+                        'value': '😄-😄 unicode emoji'
                     }
                 ],
                 'data': {
@@ -268,8 +259,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': '--unicode-emoji'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -277,8 +267,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': '😄_😄 unicode emoji',
-                        'position': undefined
+                        'value': '😄_😄 unicode emoji'
                     }
                 ],
                 'data': {
@@ -289,8 +278,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': '_-unicode-emoji'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -304,8 +292,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': ''
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -319,8 +306,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': '-1'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -328,8 +314,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Initial spaces',
-                        'position': undefined
+                        'value': 'Initial spaces'
                     }
                 ],
                 'data': {
@@ -340,8 +325,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'initial-spaces'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -349,8 +333,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Final spaces',
-                        'position': undefined
+                        'value': 'Final spaces'
                     }
                 ],
                 'data': {
@@ -361,8 +344,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'final-spaces'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -370,8 +352,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Duplicate',
-                        'position': undefined
+                        'value': 'Duplicate'
                     }
                 ],
                 'data': {
@@ -382,8 +363,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'duplicate'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -391,8 +371,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': 'Duplicate',
-                        'position': undefined
+                        'value': 'Duplicate'
                     }
                 ],
                 'data': {
@@ -403,8 +382,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'duplicate-1'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -412,8 +390,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': ':ok: No underscore',
-                        'position': undefined
+                        'value': ':ok: No underscore'
                     }
                 ],
                 'data': {
@@ -424,8 +401,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'ok-no-underscore'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -433,8 +409,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': ':ok_hand: Single',
-                        'position': undefined
+                        'value': ':ok_hand: Single'
                     }
                 ],
                 'data': {
@@ -445,8 +420,7 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'ok_hand-single'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -455,8 +429,7 @@ test('slugs', function (t) {
                     {
                         'type': 'text',
                         'value': ':ok_hand::hatched_chick: Two ' +
-                            'in a row with no spaces',
-                        'position': undefined
+                            'in a row with no spaces'
                     }
                 ],
                 'data': {
@@ -470,8 +443,7 @@ test('slugs', function (t) {
                         'id': 'ok_handhatched_chick-two-in-a-row-' +
                             'with-no-spaces'
                     }
-                },
-                'position': undefined
+                }
             },
             {
                 'type': 'heading',
@@ -479,8 +451,7 @@ test('slugs', function (t) {
                 'children': [
                     {
                         'type': 'text',
-                        'value': ':ok_hand: :hatched_chick: Two in a row',
-                        'position': undefined
+                        'value': ':ok_hand: :hatched_chick: Two in a row'
                     }
                 ],
                 'data': {
@@ -491,11 +462,9 @@ test('slugs', function (t) {
                     'hProperties': {
                         'id': 'ok_hand-hatched_chick-two-in-a-row'
                     }
-                },
-                'position': undefined
+                }
             }
-        ],
-        'position': undefined
+        ]
     });
 
     t.end();
