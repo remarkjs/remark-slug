@@ -8,15 +8,37 @@
 
 'use strict';
 
-/* eslint-env commonjs */
-
-/*
- * Dependencies.
- */
-
+/* Dependencies. */
 var toString = require('mdast-util-to-string');
 var visit = require('unist-util-visit');
 var slugs = require('github-slugger')();
+
+/* Expose. */
+module.exports = attacher;
+
+/* Attacher. */
+function attacher() {
+  return transformer;
+}
+
+/* Patch slugs on heading nodes. */
+function transformer(ast) {
+  slugs.reset();
+
+  visit(ast, 'heading', function (node) {
+    var id = slugs.slug(toString(node));
+    var data = patch(node, 'data', {});
+
+    /* Non-html */
+    patch(data, 'id', id);
+    /* Legacy remark-html */
+    patch(data, 'htmlAttributes', {});
+    /* Current remark-html */
+    patch(data, 'hProperties', {});
+    patch(data.htmlAttributes, 'id', id);
+    patch(data.hProperties, 'id', id);
+  });
+}
 
 /**
  * Patch `value` on `context` at `key`, if
@@ -27,50 +49,9 @@ var slugs = require('github-slugger')();
  * @param {*} value - Value to patch.
  */
 function patch(context, key, value) {
-    if (!context[key]) {
-        context[key] = value;
-    }
+  if (!context[key]) {
+    context[key] = value;
+  }
 
-    return context[key];
+  return context[key];
 }
-
-/**
- * Patch slugs on heading nodes.
- *
- * Transformer is invoked for every file, so there’s no need
- * to specify extra logic to get per-file slug pools.
- *
- * @param {Node} ast - Root node.
- */
-function transformer(ast) {
-    slugs.reset();
-
-    visit(ast, 'heading', function (node) {
-        var id = slugs.slug(toString(node));
-        var data = patch(node, 'data', {});
-
-        /* Non-html */
-        patch(data, 'id', id);
-        /* Legacy remark-html */
-        patch(data, 'htmlAttributes', {});
-        /* Current remark-html */
-        patch(data, 'hProperties', {});
-        patch(data.htmlAttributes, 'id', id);
-        patch(data.hProperties, 'id', id);
-    });
-}
-
-/**
- * Attacher.
- *
- * @return {Function} - Transformer.
- */
-function attacher() {
-    return transformer;
-}
-
-/*
- * Expose.
- */
-
-module.exports = attacher;

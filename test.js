@@ -8,464 +8,158 @@
 
 'use strict';
 
-/* eslint-env node */
-
-/*
- * Dependencies.
- */
-
+/* Dependencies. */
 var test = require('tape');
-var slug = require('./');
 var remark = require('remark');
+var u = require('unist-builder');
 var removePosition = require('unist-util-remove-position');
+var slug = require('./');
 
-/**
- * Parse `doc` with remark, and apply `slug` to
- * the resulting `ast` with `options`.
- *
- * @param {string} doc - Document.
- * @param {Object?} options - Slug options.
- * @return {Node} - Parsed and transformed `doc`.
- */
+/* Shortcut. */
 function process(doc, options) {
-    var processor = remark().use(slug, options);
-    var tree = processor.run(processor.parse(doc));
+  var processor = remark().use(slug, options);
+  var tree = processor.run(processor.parse(doc));
 
-    removePosition(tree, true);
+  removePosition(tree, true);
 
-    return tree;
+  return tree;
 }
 
-/*
- * Testes.
- */
-
+/* Tests. */
 test('remark-slug', function (t) {
-    var processor = remark().use(slug);
-    var ast;
+  var processor = remark().use(slug);
+  var ast;
 
-    ast = process([
-        '# Normal',
-        '',
-        '## Table of Contents',
-        '',
-        '# Baz',
-        ''
-    ].join('\n'));
+  ast = process([
+    '# Normal',
+    '',
+    '## Table of Contents',
+    '',
+    '# Baz',
+    ''
+  ].join('\n'));
 
-    t.equal(ast.children[0].data.id, 'normal');
-    t.equal(ast.children[1].data.id, 'table-of-contents');
-    t.equal(ast.children[2].data.id, 'baz');
+  t.equal(ast.children[0].data.id, 'normal');
+  t.equal(ast.children[1].data.id, 'table-of-contents');
+  t.equal(ast.children[2].data.id, 'baz');
 
-    ast = process([
-        '# Normal',
-        '',
-        '## Table of Contents',
-        '',
-        '# Baz',
-        ''
-    ].join('\n'));
+  ast = process([
+    '# Normal',
+    '',
+    '## Table of Contents',
+    '',
+    '# Baz',
+    ''
+  ].join('\n'));
 
-    t.equal(ast.children[0].data.hProperties.id, 'normal');
-    t.equal(ast.children[1].data.hProperties.id, 'table-of-contents');
-    t.equal(ast.children[2].data.hProperties.id, 'baz');
+  t.equal(ast.children[0].data.hProperties.id, 'normal');
+  t.equal(ast.children[1].data.hProperties.id, 'table-of-contents');
+  t.equal(ast.children[2].data.hProperties.id, 'baz');
 
-    ast = processor.parse('# Normal', {
-        'position': false
-    });
+  ast = processor.parse('# Normal', {position: false});
 
-    ast.children[0].data = {
-        'foo': 'bar'
-    };
+  ast.children[0].data = {foo: 'bar'};
 
-    processor.run(ast);
+  processor.run(ast);
 
-    t.equal(
-        ast.children[0].data.foo,
-        'bar',
-        'should not overwrite `data` on headings'
-    );
+  t.equal(
+    ast.children[0].data.foo,
+    'bar',
+    'should not overwrite `data` on headings'
+  );
 
-    ast = processor.parse('# Normal', {
-        'position': false
-    });
+  ast = processor.parse('# Normal', {position: false});
 
-    ast.children[0].data = {
-        'hProperties': {
-            'className': 'bar'
-        }
-    };
+  ast.children[0].data = {
+    hProperties: {className: 'bar'}
+  };
 
-    processor.run(ast);
+  processor.run(ast);
 
-    t.equal(
-        ast.children[0].data.hProperties.className,
-        'bar',
-        'should not overwrite `data.hProperties` on headings'
-    );
+  t.equal(
+    ast.children[0].data.hProperties.className,
+    'bar',
+    'should not overwrite `data.hProperties` on headings'
+  );
 
-    t.end();
+  t.end();
 });
 
 test('slugs', function (t) {
-    t.deepEqual(process([
-        '## I ♥ unicode',
-        '',
-        '## Dash-dash',
-        '',
-        '## en–dash',
-        '',
-        '## em–dash',
-        '',
-        '## 😄 unicode emoji',
-        '',
-        '## 😄-😄 unicode emoji',
-        '',
-        '## 😄_😄 unicode emoji',
-        '',
-        '##',
-        '',
-        '## ',
-        '',
-        '##     Initial spaces',
-        '',
-        '## Final spaces   ',
-        '',
-        '## Duplicate',
-        '',
-        '## Duplicate',
-        '',
-        '## :ok: No underscore',
-        '',
-        '## :ok_hand: Single',
-        '',
-        '## :ok_hand::hatched_chick: Two in a row with no spaces',
-        '',
-        '## :ok_hand: :hatched_chick: Two in a row',
-        ''
-    ].join('\n')),
-    {
-        'type': 'root',
-        'children': [
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': 'I ♥ unicode'
-                    }
-                ],
-                'data': {
-                    'id': 'i--unicode',
-                    'htmlAttributes': {
-                        'id': 'i--unicode'
-                    },
-                    'hProperties': {
-                        'id': 'i--unicode'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': 'Dash-dash'
-                    }
-                ],
-                'data': {
-                    'id': 'dash-dash',
-                    'htmlAttributes': {
-                        'id': 'dash-dash'
-                    },
-                    'hProperties': {
-                        'id': 'dash-dash'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': 'en–dash'
-                    }
-                ],
-                'data': {
-                    'id': 'endash',
-                    'htmlAttributes': {
-                        'id': 'endash'
-                    },
-                    'hProperties': {
-                        'id': 'endash'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': 'em–dash'
-                    }
-                ],
-                'data': {
-                    'id': 'emdash',
-                    'htmlAttributes': {
-                        'id': 'emdash'
-                    },
-                    'hProperties': {
-                        'id': 'emdash'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': '😄 unicode emoji'
-                    }
-                ],
-                'data': {
-                    'id': '-unicode-emoji',
-                    'htmlAttributes': {
-                        'id': '-unicode-emoji'
-                    },
-                    'hProperties': {
-                        'id': '-unicode-emoji'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': '😄-😄 unicode emoji'
-                    }
-                ],
-                'data': {
-                    'id': '--unicode-emoji',
-                    'htmlAttributes': {
-                        'id': '--unicode-emoji'
-                    },
-                    'hProperties': {
-                        'id': '--unicode-emoji'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': '😄_😄 unicode emoji'
-                    }
-                ],
-                'data': {
-                    'id': '_-unicode-emoji',
-                    'htmlAttributes': {
-                        'id': '_-unicode-emoji'
-                    },
-                    'hProperties': {
-                        'id': '_-unicode-emoji'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [],
-                'data': {
-                    'id': '',
-                    'htmlAttributes': {
-                        'id': ''
-                    },
-                    'hProperties': {
-                        'id': ''
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [],
-                'data': {
-                    'id': '-1',
-                    'htmlAttributes': {
-                        'id': '-1'
-                    },
-                    'hProperties': {
-                        'id': '-1'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': 'Initial spaces'
-                    }
-                ],
-                'data': {
-                    'id': 'initial-spaces',
-                    'htmlAttributes': {
-                        'id': 'initial-spaces'
-                    },
-                    'hProperties': {
-                        'id': 'initial-spaces'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': 'Final spaces'
-                    }
-                ],
-                'data': {
-                    'id': 'final-spaces',
-                    'htmlAttributes': {
-                        'id': 'final-spaces'
-                    },
-                    'hProperties': {
-                        'id': 'final-spaces'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': 'Duplicate'
-                    }
-                ],
-                'data': {
-                    'id': 'duplicate',
-                    'htmlAttributes': {
-                        'id': 'duplicate'
-                    },
-                    'hProperties': {
-                        'id': 'duplicate'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': 'Duplicate'
-                    }
-                ],
-                'data': {
-                    'id': 'duplicate-1',
-                    'htmlAttributes': {
-                        'id': 'duplicate-1'
-                    },
-                    'hProperties': {
-                        'id': 'duplicate-1'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': ':ok: No underscore'
-                    }
-                ],
-                'data': {
-                    'id': 'ok-no-underscore',
-                    'htmlAttributes': {
-                        'id': 'ok-no-underscore'
-                    },
-                    'hProperties': {
-                        'id': 'ok-no-underscore'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': ':ok_hand: Single'
-                    }
-                ],
-                'data': {
-                    'id': 'ok_hand-single',
-                    'htmlAttributes': {
-                        'id': 'ok_hand-single'
-                    },
-                    'hProperties': {
-                        'id': 'ok_hand-single'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': ':ok_hand::hatched_chick: Two ' +
-                            'in a row with no spaces'
-                    }
-                ],
-                'data': {
-                    'id': 'ok_handhatched_chick-two-in-a-row-' +
-                        'with-no-spaces',
-                    'htmlAttributes': {
-                        'id': 'ok_handhatched_chick-two-in-a-row-' +
-                            'with-no-spaces'
-                    },
-                    'hProperties': {
-                        'id': 'ok_handhatched_chick-two-in-a-row-' +
-                            'with-no-spaces'
-                    }
-                }
-            },
-            {
-                'type': 'heading',
-                'depth': 2,
-                'children': [
-                    {
-                        'type': 'text',
-                        'value': ':ok_hand: :hatched_chick: Two in a row'
-                    }
-                ],
-                'data': {
-                    'id': 'ok_hand-hatched_chick-two-in-a-row',
-                    'htmlAttributes': {
-                        'id': 'ok_hand-hatched_chick-two-in-a-row'
-                    },
-                    'hProperties': {
-                        'id': 'ok_hand-hatched_chick-two-in-a-row'
-                    }
-                }
-            }
-        ]
-    });
+  t.deepEqual(process([
+    '## I ♥ unicode',
+    '',
+    '## Dash-dash',
+    '',
+    '## en–dash',
+    '',
+    '## em–dash',
+    '',
+    '## 😄 unicode emoji',
+    '',
+    '## 😄-😄 unicode emoji',
+    '',
+    '## 😄_😄 unicode emoji',
+    '',
+    '##',
+    '',
+    '## ',
+    '',
+    '##     Initial spaces',
+    '',
+    '## Final spaces   ',
+    '',
+    '## Duplicate',
+    '',
+    '## Duplicate',
+    '',
+    '## :ok: No underscore',
+    '',
+    '## :ok_hand: Single',
+    '',
+    '## :ok_hand::hatched_chick: Two in a row with no spaces',
+    '',
+    '## :ok_hand: :hatched_chick: Two in a row',
+    ''
+  ].join('\n')),
+  u('root', [
+    heading('I ♥ unicode', 'i--unicode'),
+    heading('Dash-dash', 'dash-dash'),
+    heading('en–dash', 'endash'),
+    heading('em–dash', 'emdash'),
+    heading('😄 unicode emoji', '-unicode-emoji'),
+    heading('😄-😄 unicode emoji', '--unicode-emoji'),
+    heading('😄_😄 unicode emoji', '_-unicode-emoji'),
+    heading(null, ''),
+    heading(null, '-1'),
+    heading('Initial spaces', 'initial-spaces'),
+    heading('Final spaces', 'final-spaces'),
+    heading('Duplicate', 'duplicate'),
+    heading('Duplicate', 'duplicate-1'),
+    heading(':ok: No underscore', 'ok-no-underscore'),
+    heading(':ok_hand: Single', 'ok_hand-single'),
+    heading(
+      ':ok_hand::hatched_chick: Two ' +
+      'in a row with no spaces',
+      'ok_handhatched_chick-two-in-a-row-' +
+      'with-no-spaces'
+    ),
+    heading(
+      ':ok_hand: :hatched_chick: Two in a row',
+      'ok_hand-hatched_chick-two-in-a-row'
+    )
+  ]));
 
-    t.end();
+  t.end();
 });
+
+function heading(label, id) {
+  return u('heading', {
+    depth: 2,
+    data: {
+      id: id,
+      htmlAttributes: {id: id},
+      hProperties: {id: id}
+    }
+  }, label ? [u('text', label)] : []);
+}
