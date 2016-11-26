@@ -17,18 +17,14 @@ npm install remark-slug
 
 ## Usage
 
-Dependencies:
-
 ```javascript
-var slug = require('remark-slug');
+var slug = require('./');
 var remark = require('remark');
 var html = require('remark-html');
-```
 
-Process:
-
-```javascript
 var file = remark().use(slug).use(html).process('# Foo bar');
+
+console.log(String(file));
 ```
 
 Yields:
