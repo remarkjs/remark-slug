@@ -32,14 +32,14 @@
   "devDependencies": {
     "browserify": "^13.0.0",
     "esmangle": "^1.0.0",
-    "nyc": "^8.1.0",
+    "nyc": "^10.0.0",
     "remark": "^6.0.0",
     "remark-cli": "^2.0.0",
     "remark-preset-wooorm": "^1.0.0",
     "tape": "^4.0.0",
     "unist-builder": "^1.0.2",
     "unist-util-remove-position": "^1.1.0",
-    "xo": "^0.16.0"
+    "xo": "^0.17.1"
   },
   "scripts": {
     "build-bundle": "browserify index.js --no-builtins -s remarkSlug > remark-slug.js",
