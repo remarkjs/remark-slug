@@ -1,22 +1,11 @@
-/**
- * @author Titus Wormer
- * @copyright 2015 Titus Wormer
- * @license MIT
- * @module remark:slug
- * @fileoverview Add anchors to remark heading nodes.
- */
-
 'use strict';
 
-/* Dependencies. */
 var toString = require('mdast-util-to-string');
 var visit = require('unist-util-visit');
 var slugs = require('github-slugger')();
 
-/* Expose. */
 module.exports = attacher;
 
-/* Attacher. */
 function attacher() {
   return transformer;
 }
@@ -40,14 +29,6 @@ function transformer(ast) {
   });
 }
 
-/**
- * Patch `value` on `context` at `key`, if
- * `context[key]` does not already exist.
- *
- * @param {Object} context - Context to patch.
- * @param {string} key - Key to patch at.
- * @param {*} value - Value to patch.
- */
 function patch(context, key, value) {
   if (!context[key]) {
     context[key] = value;

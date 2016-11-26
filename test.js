@@ -1,21 +1,11 @@
-/**
- * @author Titus Wormer
- * @copyright 2015 Titus Wormer
- * @license MIT
- * @module remark:slug
- * @fileoverview Test suite for `remark-slug`.
- */
-
 'use strict';
 
-/* Dependencies. */
 var test = require('tape');
 var remark = require('remark');
 var u = require('unist-builder');
 var removePosition = require('unist-util-remove-position');
 var slug = require('./');
 
-/* Shortcut. */
 function process(doc, options) {
   var processor = remark().use(slug, options);
   var tree = processor.run(processor.parse(doc));
@@ -25,7 +15,6 @@ function process(doc, options) {
   return tree;
 }
 
-/* Tests. */
 test('remark-slug', function (t) {
   var processor = remark().use(slug);
   var ast;
