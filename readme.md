@@ -15,9 +15,6 @@ algorithm.
 npm install remark-slug
 ```
 
-**remark-slug** is also available as an AMD, CommonJS, and
-globals module, [uncompressed and compressed][releases].
-
 ## Usage
 
 Dependencies:
@@ -68,8 +65,6 @@ these values when they already exist.
 [chat-badge]: https://img.shields.io/gitter/room/wooorm/remark.svg
 
 [chat]: https://gitter.im/wooorm/remark
-
-[releases]: https://github.com/wooorm/remark-slug/releases
 
 [license]: LICENSE
 
