@@ -8,7 +8,7 @@ var slug = require('./');
 
 function process(doc, options) {
   var processor = remark().use(slug, options);
-  var tree = processor.run(processor.parse(doc));
+  var tree = processor.runSync(processor.parse(doc));
 
   removePosition(tree, true);
 

@@ -22,7 +22,7 @@ var slug = require('./');
 var remark = require('remark');
 var html = require('remark-html');
 
-var file = remark().use(slug).use(html).process('# Foo bar');
+var file = remark().use(slug).use(html).processSync('# Foo bar');
 
 console.log(String(file));
 ```
