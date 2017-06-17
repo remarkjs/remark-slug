@@ -15,20 +15,49 @@ npm install remark-slug
 
 ## Usage
 
-```javascript
-var slug = require('./');
-var remark = require('remark');
-var html = require('remark-html');
+Say we have the following file, `example.md`:
 
-var file = remark().use(slug).use(html).processSync('# Foo bar');
+```markdown
+# Lorem ipsum 😪
 
-console.log(String(file));
+## dolor—sit—amet
+
+### consectetur &amp; adipisicing
+
+#### elit
+
+##### elit
 ```
 
-Yields:
+And our script, `example.js`, looks as follows:
+
+```javascript
+var fs = require('fs');
+var unified = require('unified');
+var markdown = require('remark-parse');
+var slug = require('remark-slug');
+var remark2rehype = require('remark-rehype');
+var html = require('rehype-stringify');
+
+unified()
+  .use(markdown)
+  .use(slug)
+  .use(remark2rehype)
+  .use(html)
+  .process(fs.readFileSync('example.md'), function (err, file) {
+    if (err) throw err;
+    console.log(String(file));
+  });
+```
+
+Now, running `node example` yields:
 
 ```html
-<h1 id="foo-bar">Foo bar</h1>
+<h1 id="lorem-ipsum-">Lorem ipsum 😪</h1>
+<h2 id="dolorsitamet">dolor—sit—amet</h2>
+<h3 id="consectetur--adipisicing">consectetur &#x26; adipisicing</h3>
+<h4 id="elit">elit</h4>
+<h5 id="elit-1">elit</h5>
 ```
 
 ## API
