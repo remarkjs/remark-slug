@@ -12,15 +12,7 @@
     "npm",
     "remark"
   ],
-  "dependencies": {
-    "github-slugger": "^1.0.0",
-    "mdast-util-to-string": "^1.0.0",
-    "unist-util-visit": "^1.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wooorm/remark-slug.git"
-  },
+  "repository": "wooorm/remark-slug",
   "bugs": "https://github.com/wooorm/remark-slug/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
@@ -29,6 +21,11 @@
   "files": [
     "index.js"
   ],
+  "dependencies": {
+    "github-slugger": "^1.0.0",
+    "mdast-util-to-string": "^1.0.0",
+    "unist-util-visit": "^1.0.0"
+  },
   "devDependencies": {
     "browserify": "^14.0.0",
     "esmangle": "^1.0.0",
@@ -59,6 +56,8 @@
     ]
   },
   "remarkConfig": {
-    "plugins": ["preset-wooorm"]
+    "plugins": [
+      "preset-wooorm"
+    ]
   }
 }
