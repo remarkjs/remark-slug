@@ -1,6 +1,6 @@
 {
   "name": "remark-slug",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "Add anchors to remark heading nodes",
   "license": "MIT",
   "keywords": [
