@@ -3,9 +3,7 @@
 Add anchors to [**remark**][remark] heading nodes using GitHub’s
 algorithm.
 
-> Works great with [**remark-html**][remark-html],
-> used by [**remark-toc**][remark-toc] and
-> [**remark-man**][remark-man].
+> Works great with [**remark-html**][html], used by [**remark-toc**][toc].
 
 ## Installation
 
@@ -70,8 +68,6 @@ these values when they already exist.
 
 [remark]: https://github.com/wooorm/remark
 
-[remark-html]: https://github.com/wooorm/remark-html
+[html]: https://github.com/wooorm/remark-html
 
-[remark-toc]: https://github.com/wooorm/remark-toc
-
-[remark-man]: https://github.com/wooorm/remark-man
+[toc]: https://github.com/wooorm/remark-toc
