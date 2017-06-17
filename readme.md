@@ -3,7 +3,10 @@
 Add anchors to [**remark**][remark] heading nodes using GitHub’s
 algorithm.
 
-> Works great with [**remark-html**][html], used by [**remark-toc**][toc].
+> :warning: This is often useful when compiling to HTML.  If you’re doing that,
+> it’s probably smarter to use [`remark-rehype`][remark-rehype] and
+> [`rehype-slug`][rehype-slug] and benefit from the [**rehype**][rehype]
+> ecosystem.
 
 ## Installation
 
@@ -66,10 +69,16 @@ Now, running `node example` yields:
 
 Adds slugs to markdown headings.
 
+Uses [**github-slugger**][ghslug] (thus creating GitHub style `id`s).
+
 Sets `data.id`, `data.hProperties.id` on heading nodes.  The first can be
 used by any plugin as a unique identifier, the second tells **remark-html**
 to use its value as an `id` attribute. **remark-slug** does not overwrite
 these values when they already exist.
+
+## Related
+
+*   [`rehype-slug`][rehype-slug] — Add slugs to headings in HTML
 
 ## License
 
@@ -97,6 +106,10 @@ these values when they already exist.
 
 [remark]: https://github.com/wooorm/remark
 
-[html]: https://github.com/wooorm/remark-html
+[ghslug]: https://github.com/Flet/github-slugger
 
-[toc]: https://github.com/wooorm/remark-toc
+[rehype-slug]: https://github.com/wooorm/rehype-slug
+
+[remark-rehype]: https://github.com/wooorm/remark-rehype
+
+[rehype]: https://github.com/wooorm/rehype
