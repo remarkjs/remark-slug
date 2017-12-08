@@ -12,8 +12,8 @@
     "npm",
     "remark"
   ],
-  "repository": "wooorm/remark-slug",
-  "bugs": "https://github.com/wooorm/remark-slug/issues",
+  "repository": "remarkjs/remark-slug",
+  "bugs": "https://github.com/remarkjs/remark-slug/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"

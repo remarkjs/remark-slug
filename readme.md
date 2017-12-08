@@ -86,17 +86,17 @@ these values when they already exist.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/wooorm/remark-slug.svg
+[build-badge]: https://img.shields.io/travis/remarkjs/remark-slug.svg
 
-[build-status]: https://travis-ci.org/wooorm/remark-slug
+[build-status]: https://travis-ci.org/remarkjs/remark-slug
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/wooorm/remark-slug.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/remarkjs/remark-slug.svg
 
-[coverage-status]: https://codecov.io/github/wooorm/remark-slug
+[coverage-status]: https://codecov.io/github/remarkjs/remark-slug
 
-[chat-badge]: https://img.shields.io/gitter/room/wooorm/remark.svg
+[chat-badge]: https://img.shields.io/gitter/room/remarkjs/Lobby.svg
 
-[chat]: https://gitter.im/wooorm/remark
+[chat]: https://gitter.im/remarkjs/Lobby
 
 [license]: LICENSE
 
@@ -104,12 +104,12 @@ these values when they already exist.
 
 [npm]: https://docs.npmjs.com/cli/install
 
-[remark]: https://github.com/wooorm/remark
+[remark]: https://github.com/remarkjs/remark
 
 [ghslug]: https://github.com/Flet/github-slugger
 
-[rehype-slug]: https://github.com/wooorm/rehype-slug
+[rehype-slug]: https://github.com/rehypejs/rehype-slug
 
-[remark-rehype]: https://github.com/wooorm/remark-rehype
+[remark-rehype]: https://github.com/remarkjs/remark-rehype
 
-[rehype]: https://github.com/wooorm/rehype
+[rehype]: https://github.com/rehypejs/rehype
