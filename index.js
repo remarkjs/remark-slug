@@ -14,25 +14,20 @@ function slug() {
 function transformer(ast) {
   slugs.reset();
 
-  visit(ast, 'heading', function (node) {
+  visit(ast, 'heading', visitor);
+
+  function visitor(node) {
     var id = slugs.slug(toString(node));
-    var data = patch(node, 'data', {});
 
-    /* Non-html */
-    patch(data, 'id', id);
-    /* Legacy remark-html */
-    patch(data, 'htmlAttributes', {});
-    /* Current remark-html */
-    patch(data, 'hProperties', {});
-    patch(data.htmlAttributes, 'id', id);
-    patch(data.hProperties, 'id', id);
-  });
-}
+    if (!node.data) {
+      node.data = {};
+    }
 
-function patch(context, key, value) {
-  if (!context[key]) {
-    context[key] = value;
+    if (!node.data.hProperties) {
+      node.data.hProperties = {};
+    }
+
+    node.data.id = id;
+    node.data.hProperties.id = id;
   }
-
-  return context[key];
 }

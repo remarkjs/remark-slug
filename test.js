@@ -145,10 +145,6 @@ test('slugs', function (t) {
 function heading(label, id) {
   return u('heading', {
     depth: 2,
-    data: {
-      id: id,
-      htmlAttributes: {id: id},
-      hProperties: {id: id}
-    }
+    data: {id: id, hProperties: {id: id}}
   }, label ? [u('text', label)] : []);
 }
