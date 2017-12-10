@@ -69,12 +69,12 @@ Now, running `node example` yields:
 
 Adds slugs to markdown headings.
 
-Uses [**github-slugger**][ghslug] (thus creating GitHub style `id`s).
+Uses [`github-slugger`][ghslug], which creates GitHub-style slugs.
 
-Sets `data.id`, `data.hProperties.id` on heading nodes.  The first can be
-used by any plugin as a unique identifier, the second tells **remark-html**
-to use its value as an `id` attribute. **remark-slug** does not overwrite
-these values when they already exist.
+Sets `data.id` and `data.hProperties.id` on heading nodes.
+The first can be used by any plugin as a unique identifier, the second tells
+[`mdast-util-to-hast`][to-hast] (used in [`remark-html`][remark-html] and
+[`remark-rehype`][remark-rehype]) to use its value as an `id` attribute.
 
 ## Related
 
@@ -82,7 +82,8 @@ these values when they already exist.
 
 ## Contribute
 
-See [`contribute.md` in `remarkjs/remarkj`][contribute] for ways to get started.
+See [`contribute.md` in `remarkjs/remarkjs`][contribute] for ways to get
+started.
 
 This organisation has a [Code of Conduct][coc].  By interacting with this
 repository, organisation, or community you agree to abide by its terms.
@@ -115,7 +116,11 @@ repository, organisation, or community you agree to abide by its terms.
 
 [ghslug]: https://github.com/Flet/github-slugger
 
+[to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
+
 [rehype-slug]: https://github.com/rehypejs/rehype-slug
+
+[remark-html]: https://github.com/remarkjs/remark-html
 
 [remark-rehype]: https://github.com/remarkjs/remark-rehype
 
