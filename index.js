@@ -4,9 +4,9 @@ var toString = require('mdast-util-to-string');
 var visit = require('unist-util-visit');
 var slugs = require('github-slugger')();
 
-module.exports = attacher;
+module.exports = slug;
 
-function attacher() {
+function slug() {
   return transformer;
 }
 
