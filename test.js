@@ -28,22 +28,17 @@ test('remark-slug', function (t) {
     ''
   ].join('\n'));
 
-  t.equal(ast.children[0].data.id, 'normal');
-  t.equal(ast.children[1].data.id, 'table-of-contents');
-  t.equal(ast.children[2].data.id, 'baz');
+  t.deepEqual(
+    [ast.children[0].data.id, ast.children[1].data.id, ast.children[2].data.id],
+    ['normal', 'table-of-contents', 'baz'],
+    'should patch `id`s'
+  );
 
-  ast = process([
-    '# Normal',
-    '',
-    '## Table of Contents',
-    '',
-    '# Baz',
-    ''
-  ].join('\n'));
-
-  t.equal(ast.children[0].data.hProperties.id, 'normal');
-  t.equal(ast.children[1].data.hProperties.id, 'table-of-contents');
-  t.equal(ast.children[2].data.hProperties.id, 'baz');
+  t.deepEqual(
+    [ast.children[0].data.hProperties.id, ast.children[1].data.hProperties.id, ast.children[2].data.hProperties.id],
+    ['normal', 'table-of-contents', 'baz'],
+    'should patch `hProperties.id`s'
+  );
 
   ast = processor.parse('# Normal', {position: false});
 
@@ -71,10 +66,6 @@ test('remark-slug', function (t) {
     'should not overwrite `data.hProperties` on headings'
   );
 
-  t.end();
-});
-
-test('slugs', function (t) {
   t.deepEqual(process([
     '## I ♥ unicode',
     '',
@@ -137,7 +128,9 @@ test('slugs', function (t) {
       ':ok_hand: :hatched_chick: Two in a row',
       'ok_hand-hatched_chick-two-in-a-row'
     )
-  ]));
+  ]),
+  'should create GitHub slugs'
+  );
 
   t.end();
 });
