@@ -17,20 +17,11 @@ function transformer(ast) {
   visit(ast, 'heading', visitor);
 
   function visitor(node) {
-    if (node.data && node.data.hProperties && 'id' in node.data.hProperties) {
-      slugs.slug(toString(node.data.hProperties.id), true);
-      return;
-    }
-    var id = slugs.slug(toString(node));
+    node.data = node.data || {};
+    node.data.hProperties = node.data.hProperties || {};
 
-    if (!node.data) {
-      node.data = {};
-    }
-
-    if (!node.data.hProperties) {
-      node.data.hProperties = {};
-    }
-
+    const value = node.data.hProperties.id || toString(node);
+    const id = slugs.slug(value);
     node.data.id = id;
     node.data.hProperties.id = id;
   }
