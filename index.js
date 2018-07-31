@@ -17,17 +17,13 @@ function transformer(ast) {
   visit(ast, 'heading', visitor)
 
   function visitor(node) {
-    var id = slugs.slug(toString(node))
+    var data = node.data || (node.data = {})
+    var props = data.hProperties || (data.hProperties = {})
+    var id = props.id
 
-    if (!node.data) {
-      node.data = {}
-    }
+    id = id ? slugs.slug(id, true) : slugs.slug(toString(node))
 
-    if (!node.data.hProperties) {
-      node.data.hProperties = {}
-    }
-
-    node.data.id = id
-    node.data.hProperties.id = id
+    data.id = id
+    props.id = id
   }
 }

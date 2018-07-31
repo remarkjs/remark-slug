@@ -2,12 +2,15 @@
 
 var test = require('tape')
 var remark = require('remark')
+var attr = require('remark-attr')
 var u = require('unist-builder')
 var removePosition = require('unist-util-remove-position')
 var slug = require('.')
 
 function process(doc, options) {
-  var processor = remark().use(slug, options)
+  var processor = remark()
+    .use(attr)
+    .use(slug, options)
 
   return removePosition(processor.runSync(processor.parse(doc)), true)
 }
@@ -50,9 +53,7 @@ test('remark-slug', function(t) {
 
   ast = processor.parse('# Normal', {position: false})
 
-  ast.children[0].data = {
-    hProperties: {className: 'bar'}
-  }
+  ast.children[0].data = {hProperties: {className: 'bar'}}
 
   processor.run(ast)
 
@@ -129,16 +130,36 @@ test('remark-slug', function(t) {
     'should create GitHub slugs'
   )
 
+  ast = process(
+    [
+      '## Something',
+      '',
+      '## Something here',
+      '{ #here }',
+      '',
+      '## Something there',
+      '',
+      '## Something also',
+      '{ #something }',
+      ''
+    ].join('\n')
+  )
+
+  t.deepEqual(
+    ast.children.map(function(d) {
+      return d.data.id
+    }),
+    ['something', 'here', 'something-there', 'something-1'],
+    'should use existing ids as slugs'
+  )
+
   t.end()
 })
 
 function heading(label, id) {
   return u(
     'heading',
-    {
-      depth: 2,
-      data: {id: id, hProperties: {id: id}}
-    },
+    {depth: 2, data: {id: id, hProperties: {id: id}}},
     label ? [u('text', label)] : []
   )
 }
