@@ -31,6 +31,7 @@
     "esmangle": "^1.0.0",
     "nyc": "^11.0.0",
     "remark": "^8.0.0",
+    "remark-attr": "^0.6.2",
     "remark-cli": "^4.0.0",
     "remark-preset-wooorm": "^3.0.0",
     "tape": "^4.0.0",

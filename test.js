@@ -2,12 +2,13 @@
 
 var test = require('tape');
 var remark = require('remark');
+var remarkAttr = require('remark-attr');
 var u = require('unist-builder');
 var removePosition = require('unist-util-remove-position');
 var slug = require('./');
 
 function process(doc, options) {
-  var processor = remark().use(slug, options);
+  var processor = remark().use(remarkAttr).use(slug, options);
   var tree = processor.runSync(processor.parse(doc));
 
   removePosition(tree, true);
@@ -16,7 +17,7 @@ function process(doc, options) {
 }
 
 test('remark-slug', function (t) {
-  var processor = remark().use(slug);
+  var processor = remark().use(remarkAttr).use(slug);
   var ast;
 
   ast = process([
@@ -130,6 +131,35 @@ test('remark-slug', function (t) {
     )
   ]),
   'should create GitHub slugs'
+  );
+
+  ast = process([
+    '## Something',
+    '',
+    '## Something here',
+    '{ #here }',
+    '',
+    '## Something there',
+    '',
+    '## Something also',
+    '{ #something }',
+    ''
+  ].join('\n'));
+
+  t.deepEqual(
+    ast.children.map(function (d) {
+      return d.data.id;
+    }),
+    ['something', 'here', 'something-there', 'something-1'],
+    'should use existing ids as slugs'
+  );
+
+  t.deepEqual(
+    ast.children.map(function (d) {
+      return d.children[0].value;
+    }),
+    ['Something', 'Something here', 'Something there', 'Something also'],
+    'should use existing keep existing headings'
   );
 
   t.end();

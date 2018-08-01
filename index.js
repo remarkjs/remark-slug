@@ -20,8 +20,7 @@ function transformer(ast) {
     node.data = node.data || {};
     node.data.hProperties = node.data.hProperties || {};
 
-    const value = node.data.hProperties.id || toString(node);
-    const id = slugs.slug(value);
+    var id = slugs.slug(node.data.hProperties.id || toString(node));
     node.data.id = id;
     node.data.hProperties.id = id;
   }
