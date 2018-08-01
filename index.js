@@ -17,16 +17,10 @@ function transformer(ast) {
   visit(ast, 'heading', visitor);
 
   function visitor(node) {
-    var id = slugs.slug(toString(node));
+    node.data = node.data || {};
+    node.data.hProperties = node.data.hProperties || {};
 
-    if (!node.data) {
-      node.data = {};
-    }
-
-    if (!node.data.hProperties) {
-      node.data.hProperties = {};
-    }
-
+    var id = slugs.slug(node.data.hProperties.id || toString(node));
     node.data.id = id;
     node.data.hProperties.id = id;
   }
