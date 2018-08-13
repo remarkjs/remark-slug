@@ -4,7 +4,7 @@ var test = require('tape');
 var remark = require('remark');
 var u = require('unist-builder');
 var removePosition = require('unist-util-remove-position');
-var slug = require('./');
+var slug = require('.');
 
 function process(doc, options) {
   var processor = remark().use(slug, options);
