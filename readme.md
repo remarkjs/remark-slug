@@ -35,22 +35,22 @@ Say we have the following file, `example.md`:
 And our script, `example.js`, looks as follows:
 
 ```javascript
-var fs = require('fs');
-var unified = require('unified');
-var markdown = require('remark-parse');
-var slug = require('remark-slug');
-var remark2rehype = require('remark-rehype');
-var html = require('rehype-stringify');
+var fs = require('fs')
+var unified = require('unified')
+var markdown = require('remark-parse')
+var slug = require('remark-slug')
+var remark2rehype = require('remark-rehype')
+var html = require('rehype-stringify')
 
 unified()
   .use(markdown)
   .use(slug)
   .use(remark2rehype)
   .use(html)
-  .process(fs.readFileSync('example.md'), function (err, file) {
-    if (err) throw err;
-    console.log(String(file));
-  });
+  .process(fs.readFileSync('example.md'), function(err, file) {
+    if (err) throw err
+    console.log(String(file))
+  })
 ```
 
 Now, running `node example` yields:
