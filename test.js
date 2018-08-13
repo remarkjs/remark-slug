@@ -2,16 +2,12 @@
 
 var test = require('tape')
 var remark = require('remark')
-var attr = require('remark-attr')
 var u = require('unist-builder')
 var removePosition = require('unist-util-remove-position')
 var slug = require('.')
 
 function process(doc, options) {
-  var processor = remark()
-    .use(attr)
-    .use(slug, options)
-
+  var processor = remark().use(slug, options)
   return removePosition(processor.runSync(processor.parse(doc)), true)
 }
 
@@ -130,27 +126,44 @@ test('remark-slug', function(t) {
     'should create GitHub slugs'
   )
 
-  ast = process(
+  ast = processor.parse(
     [
       '## Something',
       '',
       '## Something here',
-      '{ #here }',
       '',
       '## Something there',
       '',
       '## Something also',
-      '{ #something }',
       ''
     ].join('\n')
   )
 
+  ast.children[1].data = {hProperties: {id: 'here'}}
+  ast.children[3].data = {hProperties: {id: 'something'}}
+
+  processor.run(ast)
+
   t.deepEqual(
-    ast.children.map(function(d) {
-      return d.data.id
-    }),
+    [
+      ast.children[0].data.id,
+      ast.children[1].data.id,
+      ast.children[2].data.id,
+      ast.children[3].data.id
+    ],
     ['something', 'here', 'something-there', 'something-1'],
-    'should use existing ids as slugs'
+    'should generate id’s, based on `hProperties.id` if they exist'
+  )
+
+  t.deepEqual(
+    [
+      ast.children[0].data.hProperties.id,
+      ast.children[1].data.hProperties.id,
+      ast.children[2].data.hProperties.id,
+      ast.children[3].data.hProperties.id
+    ],
+    ['something', 'here', 'something-there', 'something-1'],
+    'should generate `hProperties.id`, based on `hProperties.id` if they exist'
   )
 
   t.end()
