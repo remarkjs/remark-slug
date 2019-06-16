@@ -1,22 +1,26 @@
 {
   "name": "remark-slug",
   "version": "5.1.1",
-  "description": "Add anchors to remark heading nodes",
+  "description": "remark plugin to add anchors to headings",
   "license": "MIT",
   "keywords": [
-    "text",
+    "unified",
+    "remark",
+    "plugin",
+    "mdast",
     "markdown",
+    "text",
     "slug",
     "id",
     "github",
-    "npm",
-    "remark"
+    "npm"
   ],
   "repository": "remarkjs/remark-slug",
   "bugs": "https://github.com/remarkjs/remark-slug/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "contributors": [
-    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+    "Jayson Harshbarger <hypercubed@gmail.com>"
   ],
   "files": [
     "index.js"
