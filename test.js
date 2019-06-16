@@ -6,57 +6,148 @@ var u = require('unist-builder')
 var removePosition = require('unist-util-remove-position')
 var slug = require('.')
 
-function process(doc, options) {
-  var processor = remark().use(slug, options)
-  return removePosition(processor.runSync(processor.parse(doc)), true)
-}
-
 test('remark-slug', function(t) {
-  var processor = remark().use(slug)
-  var ast
-
-  ast = process(
-    ['# Normal', '', '## Table of Contents', '', '# Baz', ''].join('\n')
+  t.deepEqual(
+    removePosition(
+      remark()
+        .use(slug)
+        .runSync(remark().parse('# Normal\n\n## Table of Contents\n\n# Baz\n')),
+      true
+    ),
+    u('root', [
+      u(
+        'heading',
+        {depth: 1, data: {hProperties: {id: 'normal'}, id: 'normal'}},
+        [u('text', 'Normal')]
+      ),
+      u(
+        'heading',
+        {
+          depth: 2,
+          data: {
+            hProperties: {id: 'table-of-contents'},
+            id: 'table-of-contents'
+          }
+        },
+        [u('text', 'Table of Contents')]
+      ),
+      u('heading', {depth: 1, data: {hProperties: {id: 'baz'}, id: 'baz'}}, [
+        u('text', 'Baz')
+      ])
+    ]),
+    'should patch `id`s and `data.hProperties.id`'
   )
 
   t.deepEqual(
-    [ast.children[0].data.id, ast.children[1].data.id, ast.children[2].data.id],
-    ['normal', 'table-of-contents', 'baz'],
-    'should patch `id`s'
-  )
-
-  t.deepEqual(
-    [
-      ast.children[0].data.hProperties.id,
-      ast.children[1].data.hProperties.id,
-      ast.children[2].data.hProperties.id
-    ],
-    ['normal', 'table-of-contents', 'baz'],
-    'should patch `hProperties.id`s'
-  )
-
-  ast = processor.parse('# Normal', {position: false})
-
-  ast.children[0].data = {foo: 'bar'}
-
-  processor.run(ast)
-
-  t.equal(
-    ast.children[0].data.foo,
-    'bar',
+    removePosition(
+      remark()
+        .use(function() {
+          return transform
+          function transform(tree) {
+            tree.children[0].data = {foo: 'bar'}
+          }
+        })
+        .use(slug)
+        .runSync(remark().parse('# Normal\n')),
+      true
+    ),
+    u('root', [
+      u(
+        'heading',
+        {
+          depth: 1,
+          data: {foo: 'bar', hProperties: {id: 'normal'}, id: 'normal'}
+        },
+        [u('text', 'Normal')]
+      )
+    ]),
     'should not overwrite `data` on headings'
   )
 
-  ast = processor.parse('# Normal', {position: false})
-
-  ast.children[0].data = {hProperties: {className: 'bar'}}
-
-  processor.run(ast)
-
-  t.equal(
-    ast.children[0].data.hProperties.className,
-    'bar',
+  t.deepEqual(
+    removePosition(
+      remark()
+        .use(function() {
+          return transform
+          function transform(tree) {
+            tree.children[0].data = {hProperties: {className: ['foo']}}
+          }
+        })
+        .use(slug)
+        .runSync(remark().parse('# Normal\n')),
+      true
+    ),
+    u('root', [
+      u(
+        'heading',
+        {
+          depth: 1,
+          data: {hProperties: {className: ['foo'], id: 'normal'}, id: 'normal'}
+        },
+        [u('text', 'Normal')]
+      )
+    ]),
     'should not overwrite `data.hProperties` on headings'
+  )
+
+  t.deepEqual(
+    removePosition(
+      remark()
+        .use(function() {
+          return transform
+          function transform(tree) {
+            tree.children[1].data = {hProperties: {id: 'here'}}
+            tree.children[3].data = {hProperties: {id: 'something'}}
+          }
+        })
+        .use(slug)
+        .runSync(
+          remark().parse(
+            [
+              '## Something',
+              '## Something here',
+              '## Something there',
+              '## Something also'
+            ].join('\n\n') + '\n'
+          )
+        ),
+      true
+    ),
+    u('root', [
+      u(
+        'heading',
+        {
+          depth: 2,
+          data: {hProperties: {id: 'something'}, id: 'something'}
+        },
+        [u('text', 'Something')]
+      ),
+      u(
+        'heading',
+        {
+          depth: 2,
+          data: {hProperties: {id: 'here'}, id: 'here'}
+        },
+        [u('text', 'Something here')]
+      ),
+      u(
+        'heading',
+        {
+          depth: 2,
+          data: {hProperties: {id: 'something-there'}, id: 'something-there'}
+        },
+        [u('text', 'Something there')]
+      ),
+      u(
+        'heading',
+        {
+          depth: 2,
+          data: {hProperties: {id: 'something-1'}, id: 'something-1'}
+        },
+        [u('text', 'Something also')]
+      )
+    ]),
+    'should generate `id`s and `hProperties.id`s, based on `hProperties.id` if they exist'
   )
 
   t.deepEqual(
@@ -126,46 +217,6 @@ test('remark-slug', function(t) {
     'should create GitHub slugs'
   )
 
-  ast = processor.parse(
-    [
-      '## Something',
-      '',
-      '## Something here',
-      '',
-      '## Something there',
-      '',
-      '## Something also',
-      ''
-    ].join('\n')
-  )
-
-  ast.children[1].data = {hProperties: {id: 'here'}}
-  ast.children[3].data = {hProperties: {id: 'something'}}
-
-  processor.run(ast)
-
-  t.deepEqual(
-    [
-      ast.children[0].data.id,
-      ast.children[1].data.id,
-      ast.children[2].data.id,
-      ast.children[3].data.id
-    ],
-    ['something', 'here', 'something-there', 'something-1'],
-    'should generate id’s, based on `hProperties.id` if they exist'
-  )
-
-  t.deepEqual(
-    [
-      ast.children[0].data.hProperties.id,
-      ast.children[1].data.hProperties.id,
-      ast.children[2].data.hProperties.id,
-      ast.children[3].data.hProperties.id
-    ],
-    ['something', 'here', 'something-there', 'something-1'],
-    'should generate `hProperties.id`, based on `hProperties.id` if they exist'
-  )
-
   t.end()
 })
 
@@ -175,4 +226,9 @@ function heading(label, id) {
     {depth: 2, data: {id: id, hProperties: {id: id}}},
     label ? [u('text', label)] : []
   )
+}
+
+function process(doc, options) {
+  var processor = remark().use(slug, options)
+  return removePosition(processor.runSync(processor.parse(doc)), true)
 }
