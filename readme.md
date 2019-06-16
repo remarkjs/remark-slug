@@ -3,27 +3,27 @@
 [![Build][build-badge]][build]
 [![Coverage][coverage-badge]][coverage]
 [![Downloads][downloads-badge]][downloads]
-[![Chat][chat-badge]][chat]
+[![Size][size-badge]][size]
 [![Sponsors][sponsors-badge]][collective]
 [![Backers][backers-badge]][collective]
+[![Chat][chat-badge]][chat]
 
-Add anchors to [**remark**][remark] heading nodes using GitHub’s
-algorithm.
+[**remark**][remark] plugin to add anchors headings using GitHub’s algorithm.
 
-> :warning: This is often useful when compiling to HTML.  If you’re doing that,
-> it’s probably smarter to use [`remark-rehype`][remark-rehype] and
-> [`rehype-slug`][rehype-slug] and benefit from the [**rehype**][rehype]
-> ecosystem.
+> ⚠️ Note: This is often useful when compiling to HTML.
+> If you’re doing that, it’s probably smarter to use
+> [`remark-rehype`][remark-rehype] and [`rehype-slug`][rehype-slug] and benefit
+> from the [**rehype**][rehype] ecosystem.
 
-## Installation
+## Install
 
 [npm][]:
 
-```bash
+```sh
 npm install remark-slug
 ```
 
-## Usage
+## Use
 
 Say we have the following file, `example.md`:
 
@@ -41,7 +41,7 @@ Say we have the following file, `example.md`:
 
 And our script, `example.js`, looks as follows:
 
-```javascript
+```js
 var fs = require('fs')
 var unified = require('unified')
 var markdown = require('remark-parse')
@@ -72,13 +72,13 @@ Now, running `node example` yields:
 
 ## API
 
-### `remark.use(slug)`
+### `remark().use(slug)`
 
-Adds slugs to markdown headings.
+Add anchors headings using GitHub’s algorithm.
 
-Uses [`github-slugger`][ghslug], which creates GitHub-style slugs.
+Uses [`github-slugger`][ghslug] to creates GitHub-style slugs.
 
-Sets `data.id` and `data.hProperties.id` on heading nodes.
+Sets `data.id` and `data.hProperties.id` on headings.
 The first can be used by any plugin as a unique identifier, the second tells
 [`mdast-util-to-hast`][to-hast] (used in [`remark-html`][remark-html] and
 [`remark-rehype`][remark-rehype]) to use its value as an `id` attribute.
@@ -89,11 +89,13 @@ The first can be used by any plugin as a unique identifier, the second tells
 
 ## Contribute
 
-See [`contributing.md` in `remarkjs/remark`][contributing] for ways to get
-started.
+See [`contributing.md`][contributing] in [`remarkjs/.github`][health] for ways
+to get started.
+See [`support.md`][support] for ways to get help.
 
-This organisation has a [Code of Conduct][coc].  By interacting with this
-repository, organisation, or community you agree to abide by its terms.
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
@@ -101,7 +103,7 @@ repository, organisation, or community you agree to abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/remarkjs/remark-slug.svg
+[build-badge]: https://img.shields.io/travis/remarkjs/remark-slug/master.svg
 
 [build]: https://travis-ci.org/remarkjs/remark-slug
 
@@ -113,9 +115,9 @@ repository, organisation, or community you agree to abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/remark-slug
 
-[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+[size-badge]: https://img.shields.io/bundlephobia/minzip/remark-slug.svg
 
-[chat]: https://spectrum.chat/unified/remark
+[size]: https://bundlephobia.com/result?p=remark-slug
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
@@ -123,11 +125,23 @@ repository, organisation, or community you agree to abide by its terms.
 
 [collective]: https://opencollective.com/unified
 
+[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+
+[chat]: https://spectrum.chat/unified/remark
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[health]: https://github.com/remarkjs/.github
+
+[contributing]: https://github.com/remarkjs/.github/blob/master/contributing.md
+
+[support]: https://github.com/remarkjs/.github/blob/master/support.md
+
+[coc]: https://github.com/remarkjs/.github/blob/master/code-of-conduct.md
+
 [license]: license
 
 [author]: https://wooorm.com
-
-[npm]: https://docs.npmjs.com/cli/install
 
 [remark]: https://github.com/remarkjs/remark
 
@@ -142,7 +156,3 @@ repository, organisation, or community you agree to abide by its terms.
 [remark-rehype]: https://github.com/remarkjs/remark-rehype
 
 [rehype]: https://github.com/rehypejs/rehype
-
-[contributing]: https://github.com/remarkjs/remark/blob/master/contributing.md
-
-[coc]: https://github.com/remarkjs/remark/blob/master/code-of-conduct.md
