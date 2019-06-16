@@ -10,7 +10,7 @@ function slug() {
   return transformer
 }
 
-/* Patch slugs on heading nodes. */
+// Patch slugs on heading nodes.
 function transformer(ast) {
   slugs.reset()
 
