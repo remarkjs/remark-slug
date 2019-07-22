@@ -83,6 +83,16 @@ The first can be used by any plugin as a unique identifier, the second tells
 [`mdast-util-to-hast`][to-hast] (used in [`remark-html`][remark-html] and
 [`remark-rehype`][remark-rehype]) to use its value as an `id` attribute.
 
+## Security
+
+Use of `remark-slug` can open you up to a [cross-site scripting (XSS)][xss]
+attack as it sets `id` attributes on headings.
+In a browser, elements are retrievable by `id` with JavaScript and CSS.
+If a user injects a heading that slugs to an id you are already using,
+the user content may impersonate the website.
+
+Always be wary with user input and use [`rehype-sanitize`][sanitize].
+
 ## Related
 
 *   [`rehype-slug`][rehype-slug] — Add slugs to headings in HTML
@@ -156,3 +166,7 @@ abide by its terms.
 [remark-rehype]: https://github.com/remarkjs/remark-rehype
 
 [rehype]: https://github.com/rehypejs/rehype
+
+[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
+
+[sanitize]: https://github.com/rehypejs/rehype-sanitize
