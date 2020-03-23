@@ -6,7 +6,7 @@ var u = require('unist-builder')
 var removePosition = require('unist-util-remove-position')
 var slug = require('.')
 
-test('remark-slug', function(t) {
+test('remark-slug', function (t) {
   t.deepEqual(
     removePosition(
       remark()
@@ -41,7 +41,7 @@ test('remark-slug', function(t) {
   t.deepEqual(
     removePosition(
       remark()
-        .use(function() {
+        .use(function () {
           return transform
           function transform(tree) {
             tree.children[0].data = {foo: 'bar'}
@@ -67,7 +67,7 @@ test('remark-slug', function(t) {
   t.deepEqual(
     removePosition(
       remark()
-        .use(function() {
+        .use(function () {
           return transform
           function transform(tree) {
             tree.children[0].data = {hProperties: {className: ['foo']}}
@@ -93,7 +93,7 @@ test('remark-slug', function(t) {
   t.deepEqual(
     removePosition(
       remark()
-        .use(function() {
+        .use(function () {
           return transform
           function transform(tree) {
             tree.children[1].data = {hProperties: {id: 'here'}}
