@@ -1,6 +1,6 @@
 {
   "name": "remark-slug",
-  "version": "5.1.2",
+  "version": "6.0.0",
   "description": "remark plugin to add anchors to headings",
   "license": "MIT",
   "keywords": [
