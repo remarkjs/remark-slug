@@ -186,6 +186,8 @@ test('remark-slug', function (t) {
         '## :ok_hand::hatched_chick: Two in a row with no spaces',
         '',
         '## :ok_hand: :hatched_chick: Two in a row',
+        '',
+        '## <my package>-tests.ts',
         ''
       ].join('\n')
     ),
@@ -212,7 +214,8 @@ test('remark-slug', function (t) {
       heading(
         ':ok_hand: :hatched_chick: Two in a row',
         'ok_hand-hatched_chick-two-in-a-row'
-      )
+      ),
+      heading('-tests.ts', '-teststs')
     ]),
     'should create GitHub slugs'
   )
