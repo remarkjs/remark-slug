@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "browserify": "^17.0.0",
-    "dtslint": "^4.1.2",
+    "dtslint": "^4.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.0.0",
     "remark": "^13.0.0",
