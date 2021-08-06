@@ -4,7 +4,7 @@ import {u} from 'unist-builder'
 import {removePosition} from 'unist-util-remove-position'
 import remarkSlug from './index.js'
 
-test('remarkSlug', function (t) {
+test('remarkSlug', (t) => {
   t.deepEqual(
     removePosition(
       remark()
@@ -39,9 +39,8 @@ test('remarkSlug', function (t) {
   t.deepEqual(
     removePosition(
       remark()
-        .use(function () {
-          return transform
-          function transform(tree) {
+        .use(() => {
+          return (tree) => {
             tree.children[0].data = {foo: 'bar'}
           }
         })
@@ -65,9 +64,8 @@ test('remarkSlug', function (t) {
   t.deepEqual(
     removePosition(
       remark()
-        .use(function () {
-          return transform
-          function transform(tree) {
+        .use(() => {
+          return (tree) => {
             tree.children[0].data = {hProperties: {className: ['foo']}}
           }
         })
@@ -91,9 +89,8 @@ test('remarkSlug', function (t) {
   t.deepEqual(
     removePosition(
       remark()
-        .use(function () {
-          return transform
-          function transform(tree) {
+        .use(() => {
+          return (tree) => {
             tree.children[1].data = {hProperties: {id: 'here'}}
             tree.children[3].data = {hProperties: {id: 'something'}}
           }
@@ -221,12 +218,12 @@ test('remarkSlug', function (t) {
 function heading(label, id) {
   return u(
     'heading',
-    {depth: 2, data: {id: id, hProperties: {id: id}}},
+    {depth: 2, data: {id, hProperties: {id}}},
     label ? [u('text', label)] : []
   )
 }
 
 function process(doc, options) {
-  var processor = remark().use(remarkSlug, options)
+  const processor = remark().use(remarkSlug, options)
   return removePosition(processor.runSync(processor.parse(doc)), true)
 }

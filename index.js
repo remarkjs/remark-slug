@@ -4,24 +4,20 @@ import BananaSlug from 'github-slugger'
 
 const slugs = new BananaSlug()
 
-export default function remarkSlug() {
-  return transformer
-}
-
 // Patch slugs on heading nodes.
-function transformer(ast) {
-  slugs.reset()
+export default function remarkSlug() {
+  return (ast) => {
+    slugs.reset()
 
-  visit(ast, 'heading', visitor)
+    visit(ast, 'heading', (node) => {
+      const data = node.data || (node.data = {})
+      const props = data.hProperties || (data.hProperties = {})
+      let id = props.id
 
-  function visitor(node) {
-    var data = node.data || (node.data = {})
-    var props = data.hProperties || (data.hProperties = {})
-    var id = props.id
+      id = id ? slugs.slug(id, true) : slugs.slug(toString(node))
 
-    id = id ? slugs.slug(id, true) : slugs.slug(toString(node))
-
-    data.id = id
-    props.id = id
+      data.id = id
+      props.id = id
+    })
   }
 }
