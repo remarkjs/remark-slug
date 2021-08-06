@@ -1,14 +1,14 @@
 import test from 'tape'
-import remark from 'remark'
-import u from 'unist-builder'
-import removePosition from 'unist-util-remove-position'
-import slug from './index.js'
+import {remark} from 'remark'
+import {u} from 'unist-builder'
+import {removePosition} from 'unist-util-remove-position'
+import remarkSlug from './index.js'
 
-test('remark-slug', function (t) {
+test('remarkSlug', function (t) {
   t.deepEqual(
     removePosition(
       remark()
-        .use(slug)
+        .use(remarkSlug)
         .runSync(remark().parse('# Normal\n\n## Table of Contents\n\n# Baz\n')),
       true
     ),
@@ -45,7 +45,7 @@ test('remark-slug', function (t) {
             tree.children[0].data = {foo: 'bar'}
           }
         })
-        .use(slug)
+        .use(remarkSlug)
         .runSync(remark().parse('# Normal\n')),
       true
     ),
@@ -71,7 +71,7 @@ test('remark-slug', function (t) {
             tree.children[0].data = {hProperties: {className: ['foo']}}
           }
         })
-        .use(slug)
+        .use(remarkSlug)
         .runSync(remark().parse('# Normal\n')),
       true
     ),
@@ -98,7 +98,7 @@ test('remark-slug', function (t) {
             tree.children[3].data = {hProperties: {id: 'something'}}
           }
         })
-        .use(slug)
+        .use(remarkSlug)
         .runSync(
           remark().parse(
             [
@@ -227,6 +227,6 @@ function heading(label, id) {
 }
 
 function process(doc, options) {
-  var processor = remark().use(slug, options)
+  var processor = remark().use(remarkSlug, options)
   return removePosition(processor.runSync(processor.parse(doc)), true)
 }
