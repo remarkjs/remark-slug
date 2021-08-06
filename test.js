@@ -43,10 +43,8 @@ test('remarkSlug', (t) => {
   t.deepEqual(
     removePosition(
       remark()
-        .use(() => {
-          return (tree) => {
-            tree.children[0].data = {foo: 'bar'}
-          }
+        .use(() => (tree) => {
+          tree.children[0].data = {foo: 'bar'}
         })
         .use(remarkSlug)
         .runSync(remark().parse('# Normal\n')),
@@ -68,10 +66,8 @@ test('remarkSlug', (t) => {
   t.deepEqual(
     removePosition(
       remark()
-        .use(() => {
-          return (tree) => {
-            tree.children[0].data = {hProperties: {className: ['foo']}}
-          }
+        .use(() => (tree) => {
+          tree.children[0].data = {hProperties: {className: ['foo']}}
         })
         .use(remarkSlug)
         .runSync(remark().parse('# Normal\n')),
@@ -93,11 +89,9 @@ test('remarkSlug', (t) => {
   t.deepEqual(
     removePosition(
       remark()
-        .use(() => {
-          return (tree) => {
-            tree.children[1].data = {hProperties: {id: 'here'}}
-            tree.children[3].data = {hProperties: {id: 'something'}}
-          }
+        .use(() => (tree) => {
+          tree.children[1].data = {hProperties: {id: 'here'}}
+          tree.children[3].data = {hProperties: {id: 'something'}}
         })
         .use(remarkSlug)
         .runSync(
