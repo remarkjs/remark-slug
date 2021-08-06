@@ -1,10 +1,8 @@
-'use strict'
-
-var test = require('tape')
-var remark = require('remark')
-var u = require('unist-builder')
-var removePosition = require('unist-util-remove-position')
-var slug = require('.')
+import test from 'tape'
+import remark from 'remark'
+import u from 'unist-builder'
+import removePosition from 'unist-util-remove-position'
+import slug from './index.js'
 
 test('remark-slug', function (t) {
   t.deepEqual(

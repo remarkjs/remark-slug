@@ -1,12 +1,10 @@
-'use strict'
+import toString from 'mdast-util-to-string'
+import visit from 'unist-util-visit'
+import BananaSlug from 'github-slugger'
 
-var toString = require('mdast-util-to-string')
-var visit = require('unist-util-visit')
-var slugs = require('github-slugger')()
+const slugs = new BananaSlug()
 
-module.exports = slug
-
-function slug() {
+export default function remarkSlug() {
   return transformer
 }
 

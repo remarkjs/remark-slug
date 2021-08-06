@@ -27,11 +27,12 @@
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
     "Jayson Harshbarger <hypercubed@gmail.com>"
   ],
+  "sideEffects": false,
+  "type": "module",
+  "main": "index.js",
   "files": [
-    "index.js",
-    "types/index.d.ts"
+    "index.js"
   ],
-  "types": "types/index.d.ts",
   "dependencies": {
     "github-slugger": "^1.0.0",
     "mdast-util-to-string": "^1.0.0",
