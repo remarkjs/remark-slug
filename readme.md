@@ -23,6 +23,9 @@ No change is needed: it works exactly the same now as it did previously!
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -45,23 +48,25 @@ Say we have the following file, `example.md`:
 ##### elit
 ```
 
-And our script, `example.js`, looks as follows:
+And our module, `example.js`, looks as follows:
 
 ```js
-var fs = require('fs')
-var unified = require('unified')
-var markdown = require('remark-parse')
-var slug = require('remark-slug')
-var remark2rehype = require('remark-rehype')
-var html = require('rehype-stringify')
+import fs from 'node:fs'
+import {unified} from 'unified'
+import remarkParse from 'remark-parse'
+import remarkSlug from 'remark-slug'
+import remarkRehype from 'remark-rehype'
+import rehypeStringify from 'rehype-stringify'
+
+const buf = fs.readFileSync('example.md')
 
 unified()
-  .use(markdown)
-  .use(slug)
-  .use(remark2rehype)
-  .use(html)
-  .process(fs.readFileSync('example.md'), function(err, file) {
-    if (err) throw err
+  .use(remarkParse)
+  .use(remarkSlug)
+  .use(remarkRehype)
+  .use(rehypeStringify)
+  .process(buf)
+  .then((file) => {
     console.log(String(file))
   })
 ```
@@ -78,7 +83,10 @@ Now, running `node example` yields:
 
 ## API
 
-### `remark().use(slug)`
+This package exports no identifiers.
+The default export is `remarkSlug`.
+
+### `unified().use(remarkSlug)`
 
 Add anchors headings using GitHub’s algorithm.
 
