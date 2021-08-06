@@ -35,8 +35,8 @@
   ],
   "dependencies": {
     "github-slugger": "^1.0.0",
-    "mdast-util-to-string": "^1.0.0",
-    "unist-util-visit": "^2.0.0"
+    "mdast-util-to-string": "^3.0.0",
+    "unist-util-visit": "^4.0.0"
   },
   "devDependencies": {
     "c8": "^7.0.0",
