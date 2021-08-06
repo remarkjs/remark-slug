@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('mdast').Root} Root
+ */
+
 import test from 'tape'
 import {remark} from 'remark'
 import {u} from 'unist-builder'
@@ -215,6 +219,10 @@ test('remarkSlug', (t) => {
   t.end()
 })
 
+/**
+ * @param {string|null} label
+ * @param {string} id
+ */
 function heading(label, id) {
   return u(
     'heading',
@@ -223,7 +231,11 @@ function heading(label, id) {
   )
 }
 
-function process(doc, options) {
-  const processor = remark().use(remarkSlug, options)
+/**
+ * @param {string} doc
+ * @returns {Root}
+ */
+function process(doc) {
+  const processor = remark().use(remarkSlug)
   return removePosition(processor.runSync(processor.parse(doc)), true)
 }
