@@ -1,5 +1,2 @@
 coverage/
-remark-slug.js
-remark-slug.min.js
-*.json
 *.md
