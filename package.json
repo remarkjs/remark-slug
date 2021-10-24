@@ -1,6 +1,6 @@
 {
   "name": "remark-slug",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Legacy remark plugin to add anchors to headings — please use `rehype-slug`",
   "license": "MIT",
   "keywords": [],
