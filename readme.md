@@ -6,7 +6,7 @@ It’s still covered by semantic-versioning guarantees and not yet deprecated,
 but use of this package should be avoided.
 Please use `remark-rehype` to move from remark (markdown) to rehype (HTML)
 and then replace `remark-slug` with
-[`rehype-slug`](https://github.com/rehypejs/rehype-slug/blob/main/readme.md).
+[`rehype-slug`](https://github.com/rehypejs/rehype-slug).
 
 Legacy
 [documentation for this package](https://github.com/remarkjs/remark-slug/tree/8e6394c)
