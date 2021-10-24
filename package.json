@@ -1,21 +1,9 @@
 {
   "name": "remark-slug",
   "version": "7.0.0",
-  "description": "remark plugin to add anchors to headings",
+  "description": "Legacy remark plugin to add anchors to headings — please use `rehype-slug`",
   "license": "MIT",
-  "keywords": [
-    "unified",
-    "remark",
-    "remark-plugin",
-    "plugin",
-    "mdast",
-    "markdown",
-    "text",
-    "slug",
-    "id",
-    "github",
-    "npm"
-  ],
+  "keywords": [],
   "repository": "remarkjs/remark-slug",
   "bugs": "https://github.com/remarkjs/remark-slug/issues",
   "funding": {
